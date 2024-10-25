@@ -5,8 +5,8 @@ const Navbar = () => {
     const [open, setOpen] = useState(false)
 
   return (
-    <nav className="bg-white shadow-lg mb-6">
-      <div className="max-w-7xl mx-auto px-4">
+    <nav className="bg-zinc-100 shadow-lg mb-6">
+      <div className="max-w-7xl mx-auto px-4 ">
         <div className="flex justify-between items-center py-4">
           
           {/* Logo */}
