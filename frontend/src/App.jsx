@@ -5,14 +5,16 @@ import './App.css'
 import DashBoard from './components/DashBoard'
 import Login from './components/Login'
 import Navbar from './components/Navbar'
+import StudentInfo from './components/StudentInfo'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-    Hello world
+      <Navbar></Navbar>
       <DashBoard></DashBoard>
+      <StudentInfo></StudentInfo>
       <Login></Login>
     </>
   )
