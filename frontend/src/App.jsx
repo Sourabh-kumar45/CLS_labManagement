@@ -11,9 +11,9 @@ function App() {
 
   return (
     <>
-      <Navbar></Navbar>
+    Hello world
       <DashBoard></DashBoard>
-      {/* <Login></Login> */}
+      <Login></Login>
     </>
   )
 }
