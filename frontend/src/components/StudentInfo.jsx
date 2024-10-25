@@ -1,98 +1,49 @@
-// import React from 'react'
-
-// const StudentInfo = () => {
-//   return (
-//     <section className='border flex flex-wrap justify-center gap-10 border-sky-500 rounded-lg'>
-//         <div className='border border-sky-500 rounded-lg h-60 w-60'>
-//             <img src="" alt="" />
-
-//         </div>
-//         <div className="part-2 w-[60vw] border border-sky-500 rounded-lg">
-//             <div className='studentInfo'>
-//                 <p className='font-bold text-xl'>Name of Student</p>
-//                 <p className='font-bold text-xl'>12342130</p>
-//             </div>
-//             <div className=" border-t border-gray-400"></div>
-//             <div className='links flex gap-4 font-bold pb-3 text-gray-700'>
-                
-//                 <a href="">Program</a>|
-//                 <a href="">Department</a>|
-//                 <a href="">Branch</a>
-//             </div>
-
-//             <div className="flex items-center projects">
-//                 <i class="fa-regular fa-eye pr-2"></i>
-//                 <span>Projects</span>
-//             </div>
-
-//             <div className=" flex items-center about">
-//                 <i class="fa-regular fa-user pr-2"></i> 
-//                 <span>About</span>
-//             </div>
-//             <br /><br />
-
-//             <div className="border-t border-gray-400"></div>
-//             <div className="itemInfo">
-//                 <ul className='flex align-middle gap-4 md:gap-32 lg:gap-32'>
-//                     <li>S.NO</li>
-//                     <li>Item Issued</li>
-//                     <li>Status</li>
-//                     <li>Date of Issue</li>
-//                     <li>Remark</li>
-//                 </ul>
-//             </div>
-//         </div>
-        
-
-//     </section>
-//   )
-// }
-
-// export default StudentInfo
-
 import React from 'react';
 
 const StudentInfo = () => {
   return (
-    <section className='border flex flex-wrap justify-center gap-10 border-sky-500 rounded-lg p-4'>
-      <div className='border border-sky-500 rounded-lg h-60 w-60 sm:w-72 md:w-80'>
-        <img src="" alt="Student" className="h-full w-full object-cover rounded-lg" />
+    <section className="flex flex-col sm:flex-row items-center justify-center sm:items-start gap-8 sm:gap-10 bg-white">
+
+      {/* Info Container */}
+      <div className="w-full sm:max-w-[60vw] md:max-w-[50vw] lg:max-w-[40vw] border border-gray-300 rounded-lg p-6 bg-gray-50">
+        {/* Student Info */}
+      <div className="mb-4 flex gap-4">
+          {/* Image Container */}
+        <div className="border border-gray-300 rounded-lg h-20 w-20 overflow-hidden bg-gray-100">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhf1Nrw3E3Rci-8FmEz5KumCsaCDiRn4ievQ&s" alt="Student" className="object-cover w-full h-full" />
+        </div>
+        <div>
+          <p className="font-semibold text-2xl text-sky-600">Name of Student</p>
+          <p className="font-semibold text-lg text-gray-500">ID: 12342130</p>
+        </div>
       </div>
-      <div className="part-2 w-full sm:w-[60vw] md:w-[50vw] lg:w-[40vw] border border-sky-500 rounded-lg p-4">
-        <div className='studentInfo'>
-          <p className='font-bold text-xl'>Name of Student</p>
-          <p className='font-bold text-xl'>12342130</p>
-        </div>
-        <div className="border-t border-gray-400 my-2"></div>
-        <div className='links flex flex-wrap gap-4 font-bold pb-3 text-gray-700'>
-          <a href="">Program</a>|
-          <a href="">Department</a>|
-          <a href="">Branch</a>
+
+        {/* Divider */}
+        <div className="border-t border-gray-300 my-4"></div>
+
+        <div className="flex flex-col gap-2 font-medium text-gray-600 pb-3">
+          <span>Program</span>
+          <span>Department</span>
+          <span>Branch</span>
         </div>
 
-        <div className="flex items-center projects mb-2">
-          <i className="fa-regular fa-eye pr-2"></i>
-          <span>Projects</span>
+        {/* Projects */}
+        <div className="flex items-center gap-2 mb-2 text-gray-600">
+          <i className="w-4 fa-regular fa-eye text-sky-600"></i>
+          <span className="hover:text-sky-600 cursor-pointer transition-colors">Projects</span>
         </div>
 
-        <div className="flex items-center about mb-2">
-          <i className="fa-regular fa-user pr-2"></i> 
-          <span>About</span>
+        {/* About */}
+        <div className="flex items-center gap-2 mb-2 text-gray-600">
+          <i className="w-4 fa-regular fa-user text-sky-600"></i>
+          <span className="hover:text-sky-600 cursor-pointer transition-colors">About</span>
         </div>
-        <br />
-        <div className="border-t border-gray-400 my-2"></div>
-        {/* <div className="itemInfo">
-          <ul className='flex flex-wrap align-middle gap-4 md:gap-32 lg:gap-32'>
-            <li>S.NO</li>
-            <li>Item Issued</li>
-            <li>Status</li>
-            <li>Date of Issue</li>
-            <li>Remark</li>
-          </ul>
-        </div> */}
+
+        {/* Bottom Divider */}
+        <div className="border-t border-gray-300 mt-4"></div>
       </div>
     </section>
   );
-}
+};
 
 export default StudentInfo;

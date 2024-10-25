@@ -5,12 +5,12 @@ const Navbar = () => {
     const [open, setOpen] = useState(false)
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white shadow-lg mb-6">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           
           {/* Logo */}
-          <div className="text-2xl font-bold text-blue-600">CLS</div>
+          <div className="text-2xl font-bold text-blue-600 hover: cursor-pointer">CLS</div>
           
           {/* Links (hidden on small screens) */}
           <div className="hidden md:flex space-x-6">
