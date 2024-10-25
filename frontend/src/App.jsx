@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import './App.css'
 import DashBoard from './components/DashBoard'
+import Login from './components/Login'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,6 +12,7 @@ function App() {
     <>
     Hello world
       <DashBoard></DashBoard>
+      <Login></Login>
     </>
   )
 }
