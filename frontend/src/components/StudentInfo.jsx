@@ -2,10 +2,10 @@ import React from 'react';
 
 const StudentInfo = () => {
   return (
-    <section className="flex flex-col sm:flex-row items-center justify-center sm:items-start gap-8 sm:gap-10 bg-white">
+    <section className="flex flex-col sm:flex-row items-center justify-center sm:items-start gap-8 sm:gap-10 bg-zinc-100">
 
       {/* Info Container */}
-      <div className="w-full sm:max-w-[60vw] md:max-w-[50vw] lg:max-w-[40vw] border border-gray-300 rounded-lg p-6 bg-gray-50">
+      <div className="w-full sm:max-w-[60vw] md:max-w-[50vw] lg:max-w-[40vw] border border-gray-300 rounded-lg p-6 bg-gray-50 shadow-inner">
         {/* Student Info */}
       <div className="mb-4 flex gap-4">
           {/* Image Container */}
