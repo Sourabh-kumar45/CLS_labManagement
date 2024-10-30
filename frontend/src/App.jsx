@@ -15,7 +15,6 @@ function App() {
       <Navbar></Navbar>
       <DashBoard></DashBoard>
       <StudentInfo></StudentInfo>
-      <Login></Login>
     </>
   )
 }

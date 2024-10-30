@@ -24,7 +24,7 @@ const StudentInfo = () => {
         <div className="flex flex-col gap-2 font-medium text-gray-600 pb-3">
           <span>Program</span>
           <span>Department</span>
-          <span>Branch</span>
+          <span>Branch</span> 
         </div>
 
         {/* Projects */}
