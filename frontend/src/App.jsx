@@ -7,6 +7,7 @@ import Login from './components/Login'
 import Navbar from './components/Navbar'
 import StudentInfo from './components/StudentInfo'
 import Footer from './components/Footer'
+import Table from './components/Table'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,7 +17,7 @@ function App() {
       <Navbar></Navbar>
       <DashBoard></DashBoard>
       <StudentInfo></StudentInfo>
-      <Login></Login>
+      <Table></Table>
       <br /><br /><br /><br />
       <Footer></Footer>
     </>
