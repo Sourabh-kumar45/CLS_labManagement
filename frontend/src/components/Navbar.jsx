@@ -10,12 +10,12 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           
           {/* Logo */}
-          <div className="text-2xl font-bold text-blue-600 hover: cursor-pointer">CLS</div>
+          <div className="text-2xl font-bold text-blue-600 hover: cursor-pointer"><a href="/">CLS</a></div>
           
           {/* Links (hidden on small screens) */}
           <div className="hidden md:flex space-x-6">
-            <a href="#" className="text-gray-700 hover:text-blue-600">Department</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Student</a>
+            <a href="/department" className="text-gray-700 hover:text-blue-600">Department</a>
+            <a href="/login" className="text-gray-700 hover:text-blue-600">Student</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Achievements</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Help</a>
           </div>
