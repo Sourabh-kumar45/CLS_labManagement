@@ -8,6 +8,8 @@ import Navbar from './components/Navbar'
 import StudentInfo from './components/StudentInfo'
 import Footer from './components/Footer'
 import Table from './components/Table'
+import Home from './components/Home'
+import ItemIssueForm from './components/ItemIssueForm'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,9 +17,11 @@ function App() {
   return (
     <>
       <Navbar></Navbar>
+      <Home></Home>
       <DashBoard></DashBoard>
       <StudentInfo></StudentInfo>
       <Table></Table>
+      <ItemIssueForm></ItemIssueForm>
       <br /><br /><br /><br />
       <Footer></Footer>
     </>
