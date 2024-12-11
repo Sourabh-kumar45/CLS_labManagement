@@ -9,6 +9,7 @@ import StudentInfo from './components/StudentInfo'
 import Footer from './components/Footer'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import Department from './components/Department'
+import Register from './components/Register'
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +28,9 @@ function App() {
     ,{
       path:"/department",
       element:<><Navbar></Navbar> <Department></Department><Footer></Footer></>
+    },{
+      path:"/register",
+      element:<><Navbar></Navbar><Register></Register><Footer></Footer></>
     }
   ])
   

@@ -2,6 +2,10 @@
 
 model folder includes the database connection 
 controller includes in the backend
+here we are making a restful application.
+
+before running the backend make sure to install the packages
+express mongoose cors 
 
 view folder includes the frontend
 
