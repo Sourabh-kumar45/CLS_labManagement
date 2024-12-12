@@ -19,7 +19,7 @@ const registerRoute = require('./routes/register')
 // routes
 
 App.get('/',(req,res)=>{
-    res.send("hello world")
+    res.send("Welcome to the backend of CLS")
 })
 
 

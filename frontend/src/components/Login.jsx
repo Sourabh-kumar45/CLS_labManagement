@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 import axios from 'axios'
+import AlertBox from './AlertBox';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
@@ -28,19 +30,26 @@ const AuthPage = () => {
     axios.post('http://localhost:3000/login',{name,email,password})
     .then(result => {
       console.log(result)
-      if(result.data === "Success") {
-        navigate('/')
+      if(result.data === "no record existed") {
+        navigate('/register')
       }
       else if(result.data === "incorrect password feeded"){
-        navigate('/login')
+        navigate('/login',{ state: { errorMessage: "Incorrect password entered",type:"error" }})
       }
       else{
-        navigate('/register')
+        // here i have to navigate to the particluar route corresponsding to a user.
+        const userId = result.data; 
+        navigate(`/student/${userId}`); 
       }
     })
     .catch(err => console.log(err))
   }
 
+
+  // // for error message
+  // const location = useLocation(); 
+  // const errorMessage = location.state?.errorMessage;
+  // const errorType = location.state?.type;
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-zinc-100">
@@ -176,6 +185,8 @@ const AuthPage = () => {
           </div>
         )}
       </div>
+      {/* <AlertBox type={errorType} message={errorMessage}></AlertBox> */}
+      {/* <AlertBox type="error" message="hi there"></AlertBox> */}
     </div>
   );
 };

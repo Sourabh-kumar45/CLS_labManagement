@@ -14,7 +14,9 @@ router.post('/',(req,res)=>{
     .then(user =>{
         if(user){
             if(user.password === password){
-                res.json("Success")
+                // here we would pass the user id.
+                res.json(user.id)
+                // res.json("Success")
             }
             else{
                 res.json("incorrect password feeded")
@@ -29,5 +31,6 @@ router.post('/',(req,res)=>{
     // .then(Login => res.json(Login))
     // .catch(err => res.json(err))
 })
+
 
 module.exports = router
