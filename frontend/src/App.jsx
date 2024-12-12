@@ -11,8 +11,10 @@ import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import Department from './components/Department'
 import Register from './components/Register'
 import ItemIssueForm from './components/ItemIssueForm'
-import User from './components/Student'
+import Student from './components/Student'
 import Test from './components/Test'
+import StuAbt from './components/StuAbt'
+import StuPrj from './components/StuPrj'
 
 function App() {
   const router = createBrowserRouter([
@@ -30,7 +32,15 @@ function App() {
     },
     {
       path:"/student/:id", 
-      element:<><Navbar></Navbar><User></User><Footer></Footer></>
+      element:<><Navbar></Navbar><Student></Student><Footer></Footer></>
+    },
+    {
+      path:"/student/:id/stuAbt", 
+      element:<><Navbar></Navbar><StuAbt></StuAbt><Footer></Footer></>
+    },
+    {
+      path:"/student/:id/stuPrj", 
+      element:<><Navbar></Navbar><StuPrj></StuPrj><Footer></Footer></>
     },
     {
       path:"/user/:userName",
