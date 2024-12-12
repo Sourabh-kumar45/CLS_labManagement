@@ -15,9 +15,11 @@ const Navbar = () => {
           {/* Links (hidden on small screens) */}
           <div className="hidden md:flex space-x-6">
             <a href="/department" className="text-gray-700 hover:text-blue-600">Department</a>
-            <a href="/login" className="text-gray-700 hover:text-blue-600">Student</a>
+            <a href="" className="text-gray-700 hover:text-blue-600">Student</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Achievements</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Help</a>
+            <a href="/register" className="inline-block text-white bg-blue-600 hover:bg-blue-700 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm">Sign Up</a>
+            <a href="/login" className="inline-block text-white bg-slate-500 hover:bg-slate-300 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm">Log In </a>
           </div>
           
           {/* Mobile Menu Toggle Button */}
