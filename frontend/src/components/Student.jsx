@@ -35,6 +35,7 @@ const Student = () => {
     return (
         <div>
             <AlertBox type="info" message="Login successful!" />
+
             {/* <h1>Welcome, {userData.name}</h1>
             <p>Email: {userData.email}</p>
             <p>ID: {userData.id}</p> */}
