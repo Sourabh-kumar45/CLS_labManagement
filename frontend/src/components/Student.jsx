@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import AlertBox from './AlertBox';
+import StudentDashboard from './StudentDashboard';
 
 
 const Student = () => {
@@ -12,30 +12,35 @@ const Student = () => {
     const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
-        // Fetch user data from the backend
-        // axios
-        //     .get(`http://localhost:3000/student/${id}`) // Update the URL to match your backend route
-        //     .then((response) => {
-        //         setUserData(response.data); // Set the user data
-        //         setLoading(false); // Stop loading
-        //     })
-        //     .catch((err) => {
-        //         console.error("Error fetching user data:", err);
-        //         setError("Failed to load user data");
-        //         setLoading(false); // Stop loading
-        //     });
-
+        
+        // fetch the data from backend
         axios
-            .get(`http://localhost:3000/student/${id}/form`) // Update the URL to match your backend route
-            .then((response) => {
+        .get(`http://localhost:3000/student/${id}/form`) // Update the URL to match your backend route
+        .then((response) => {
+            if (response.status === 200 && response.data) {
+                // If the response is successful and data exists
                 setUserData(response.data); // Set the user data
                 setLoading(false); // Stop loading
-            })
-            .catch((err) => {
-                console.error("Error fetching user data:", err);
-                setError("Failed to load user data");
+            } else {
+                // If no data is returned for the user
+                setError("User data not found");
                 setLoading(false); // Stop loading
-            });
+            }
+        })
+        .catch((err) => {
+            // Check if it's a 404 error (user not found)
+            if (err.response && err.response.status === 404) {
+                setError("User not found");
+            } else if (err.response) {
+                // Handle other HTTP errors
+                setError("Error fetching user data: " + err.response.statusText);
+            } else {
+                // Handle network or other errors
+                setError("Network error or server is down");
+            }
+            setLoading(false); // Stop loading
+        });
+
             
     }, [id]);
 
@@ -57,8 +62,14 @@ const Student = () => {
     // Render loading state
     if (loading) return <p>Loading...</p>;
 
-    // Render error state
-    if (error) return <p>{error}</p>;
+    // Render error state   
+    if (error === "User not found") return(
+        <>
+        <br /><br /><br /><br /><br /><br /><br />
+        <StudentDashboard></StudentDashboard>
+        </>
+        
+    );
 
     // Render user data
     return (

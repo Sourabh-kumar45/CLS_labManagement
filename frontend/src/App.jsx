@@ -22,7 +22,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path:"/",
-      element:<><Navbar></Navbar><DashBoard></DashBoard><Home></Home><Footer></Footer></>
+      element:<><Navbar></Navbar><DashBoard></DashBoard><Footer></Footer></>
     },
     {
       path:"/form",
