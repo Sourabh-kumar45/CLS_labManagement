@@ -1,22 +1,49 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const StudentForm = () => {
-  const [studentInfo, setStudentInfo] = useState({
-    name: "",
-    id: "",
-    email: "",
-    branch: "",
-  });
+  const {id} = useParams()
 
-  const branches = ["Computer Science", "DSAI", "Electrical", "Mechanical", "ECE", "MSME"];
+  const [studentInfo, setStudentInfo] = useState({
+    uniqueId:id,
+    name: "",
+    clgid: "",
+    branch: "",
+    email: "",
+    program:"",
+  })
+
+  const branches = ["Computer Science", "DSAI", "Electrical", "Mechanical", "ECE", "MSME","Mechatronics"];
+  const program = ["B.Tech","M.Tech","Msc","Phd"]
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate()
+ 
+  
 
   const handleChange = (field, value) => {
     setStudentInfo({ ...studentInfo, [field]: value });
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission (e.g., send studentInfo to API or log it)
+    
+    // submitting the data to the backend.
+    // make a fix that only one time data is being enter in the database.
+    axios.post(`http://localhost:3000/student/${id}/form`,studentInfo)
+    .then((result) => {
+      console.log(result);
+      navigate(`/student/${id}`,{ state: { message: "from submitted succesfully", type: "success" } });
+    })
+    .catch((err) => {
+      console.error(err);
+      setErrorMessage({ errorType: 'error', message: 'Form was not Submitted ! try again' });
+      // setErrorTimestamp(Date.now()); // Update timestamp
+    });
+
+    // to log out student info
     console.log(studentInfo);
   };
 
@@ -50,17 +77,17 @@ const StudentForm = () => {
           {/* ID Input */}
           <div className="mb-4">
             <label
-              htmlFor="id"
+              htmlFor="clgid"
               className="block text-gray-700 font-medium mb-2"
             >
               Student ID
             </label>
             <input
               type="text"
-              id="id"
-              name="id"
-              value={studentInfo.id}
-              onChange={(e) => handleChange("id", e.target.value)}
+              id="clgid"
+              name="clgid"
+              value={studentInfo.clgid}
+              onChange={(e) => handleChange("clgid", e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
               placeholder="Enter your student ID"
               required
@@ -112,6 +139,31 @@ const StudentForm = () => {
             </select>
           </div>
 
+          {/* program Dropdown */}
+          <div className="mb-4">
+            <label
+              htmlFor="program"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Program
+            </label>
+            <select
+              id="program"
+              name="program"
+              value={studentInfo.program}
+              onChange={(e) => handleChange("program", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              required
+            >
+              <option value="" disabled>Select your program</option>
+              {program.map((program, idx) => (
+                <option key={idx} value={program}>
+                  {program}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Submit Button */}
           <div>
             <button
@@ -122,6 +174,9 @@ const StudentForm = () => {
             </button>
           </div>
         </form>
+        {/* {errorMessage && (
+        <AlertBox message={errorMessage.message} type={errorMessage.type} key={errorTimestamp} />
+      )} */}
       </div>
     </div>
   );

@@ -9,11 +9,24 @@ const Student = () => {
     const [userData, setUserData] = useState(null); // State to store user data
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         // Fetch user data from the backend
+        // axios
+        //     .get(`http://localhost:3000/student/${id}`) // Update the URL to match your backend route
+        //     .then((response) => {
+        //         setUserData(response.data); // Set the user data
+        //         setLoading(false); // Stop loading
+        //     })
+        //     .catch((err) => {
+        //         console.error("Error fetching user data:", err);
+        //         setError("Failed to load user data");
+        //         setLoading(false); // Stop loading
+        //     });
+
         axios
-            .get(`http://localhost:3000/student/${id}`) // Update the URL to match your backend route
+            .get(`http://localhost:3000/student/${id}/form`) // Update the URL to match your backend route
             .then((response) => {
                 setUserData(response.data); // Set the user data
                 setLoading(false); // Stop loading
@@ -23,7 +36,23 @@ const Student = () => {
                 setError("Failed to load user data");
                 setLoading(false); // Stop loading
             });
+            
     }, [id]);
+
+
+    // // setting the errror message
+
+    
+    //   useEffect(() => {
+    //     if (location.state?.message) {
+    //       setErrorMessage({
+    //         message: location.state.message,
+    //         type: location.state.type,
+    //       });
+    //       setErrorTimestamp(Date.now());
+    //     }
+    //   },[location.state]);
+
 
     // Render loading state
     if (loading) return <p>Loading...</p>;
@@ -34,7 +63,6 @@ const Student = () => {
     // Render user data
     return (
         <div>
-            <AlertBox type="info" message="Login successful!" />
 
             {/* <h1>Welcome, {userData.name}</h1>
             <p>Email: {userData.email}</p>
@@ -53,7 +81,7 @@ const Student = () => {
                 </div>
                 <div>
                 <p className="font-semibold text-2xl text-sky-600">{userData.name}</p>
-                <p className="font-semibold text-lg text-gray-500">ID: {userData.id}</p>
+                <p className="font-semibold text-lg text-gray-500">ID: {userData.clgid}</p>
                 </div>
             </div>
 
@@ -61,9 +89,9 @@ const Student = () => {
                 <div className="border-t border-gray-300 my-4"></div>
 
                 <div className="flex flex-col gap-2 font-medium text-gray-600 pb-3">
-                <span>Program</span>
-                <span>Department</span>
-                <span>Branch</span> 
+                <span>Program : {userData.program}</span>
+                <span>Department : isko rakhe ki nahi ye bata dena</span>
+                <span>Branch : {userData.branch}</span> 
                 </div>
 
                 {/* Projects */}
@@ -82,6 +110,9 @@ const Student = () => {
                 <div className="border-t border-gray-300 mt-4"></div>
             </div>
             </section>
+
+            {/* alert box */}
+            {/* <AlertBox type={errorMessage.type} message={errorMessage.message} /> */}
         </div>
     );
 }

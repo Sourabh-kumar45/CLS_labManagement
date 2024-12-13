@@ -15,16 +15,18 @@ import Student from './components/Student'
 import Test from './components/Test'
 import StuAbt from './components/StuAbt'
 import StuPrj from './components/StuPrj'
+import StudentForm from './components/StudentForm'
+import Home from './components/Home'
 
 function App() {
   const router = createBrowserRouter([
     {
       path:"/",
-      element:<><Navbar></Navbar><DashBoard></DashBoard><Footer></Footer></>
+      element:<><Navbar></Navbar><DashBoard></DashBoard><Home></Home><Footer></Footer></>
     },
     {
-      path:"form",
-      element:<ItemIssueForm></ItemIssueForm>
+      path:"/form",
+      element:<><Navbar></Navbar><ItemIssueForm></ItemIssueForm><Footer></Footer></>
     },
     {
       path:"/login",
@@ -33,6 +35,10 @@ function App() {
     {
       path:"/student/:id", 
       element:<><Navbar></Navbar><Student></Student><Footer></Footer></>
+    },
+    {
+      path:"/student/:id/form",
+      element:<><Navbar></Navbar><StudentForm></StudentForm><Footer></Footer></>
     },
     {
       path:"/student/:id/stuAbt", 
@@ -44,7 +50,7 @@ function App() {
     },
     {
       path:"/user/:userName",
-      element:<><Navbar></Navbar> <StudentInfo></StudentInfo><Footer></Footer></>
+      element:<><Navbar></Navbar><StudentInfo></StudentInfo><Footer></Footer></>
     }
     ,{
       path:"/department",

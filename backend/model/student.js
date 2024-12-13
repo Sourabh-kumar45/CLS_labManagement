@@ -1,11 +1,15 @@
 const mongoose = require("mongoose")
 
 const studentSchema = new mongoose.Schema({
+    uniqueId:{
+        type:String,
+        required:true
+    },
     name:{
         type:String,
         required:true
     },
-    idNO:{
+    clgid:{
         type:Number,
         required:true
     },
@@ -13,10 +17,14 @@ const studentSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    department:{
+    email:{
+        type:String,
+        required:true
+    },
+    program:{
         type:String,
         required:true
     }
 })
 
-module.exports = mongoose.model('Components',studentSchema)
+module.exports = mongoose.model('Student',studentSchema)

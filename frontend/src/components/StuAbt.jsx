@@ -6,6 +6,8 @@ const StuAbt = () => {
   return (
     <div>
       hello i am abt section of studen id {id}
+      <br />
+      i would containg information about the issued products and other thing about the user 
     </div>
   )
 }
