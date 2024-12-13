@@ -17,6 +17,8 @@ import StuAbt from './components/StuAbt'
 import StuPrj from './components/StuPrj'
 import StudentForm from './components/StudentForm'
 import Home from './components/Home'
+import Help from './components/Help'
+import Achievement from './components/Achievement'
 
 function App() {
   const router = createBrowserRouter([
@@ -63,7 +65,15 @@ function App() {
     {
       path:"/error",
       element:<><Navbar></Navbar><Test></Test></>
-    }
+    },
+    {
+      path:"/help",
+      element:<><Navbar></Navbar><Help></Help><Footer></Footer></>
+    },
+    {
+      path:"/achievement",
+      element:<><Navbar></Navbar><Achievement></Achievement><Footer></Footer></>
+    },
   ])
   
   return (
