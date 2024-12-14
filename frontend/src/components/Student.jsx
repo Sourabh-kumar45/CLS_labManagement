@@ -108,13 +108,13 @@ const Student = () => {
                 {/* Projects */}
                 <div className="flex items-center gap-2 mb-2 text-gray-600">
                 <i className="w-4 fa-regular fa-eye text-sky-600"></i>
-                <span className="hover:text-sky-600 cursor-pointer transition-colors"><a href={`/student/${userData.id}/stuPrj`}>Projects</a></span>
+                <span className="hover:text-sky-600 cursor-pointer transition-colors"><a href={`/student/${id}/stuPrj`}>Projects</a></span>
                 </div>
 
                 {/* About */}
                 <div className="flex items-center gap-2 mb-2 text-gray-600">
                 <i className="w-4 fa-regular fa-user text-sky-600"></i>
-                <span className="hover:text-sky-600 cursor-pointer transition-colors"><a href={`/student/${userData.id}/stuAbt`}>About</a></span>
+                <span className="hover:text-sky-600 cursor-pointer transition-colors"><a href={`/student/${id}/stuAbt`}>About</a></span>
                 </div>
 
                 {/* Bottom Divider */}

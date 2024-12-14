@@ -27,10 +27,6 @@ function App() {
       element:<><Navbar></Navbar><DashBoard></DashBoard><Footer></Footer></>
     },
     {
-      path:"/form",
-      element:<><Navbar></Navbar><ItemIssueForm></ItemIssueForm><Footer></Footer></>
-    },
-    {
       path:"/login",
       element:<><Navbar></Navbar><Login></Login><Footer></Footer></>
     },
@@ -41,6 +37,10 @@ function App() {
     {
       path:"/student/:id/form",
       element:<><Navbar></Navbar><StudentForm></StudentForm><Footer></Footer></>
+    },
+    {
+      path:"/student/:id/compForm",
+      element:<><Navbar></Navbar><ItemIssueForm></ItemIssueForm><Footer></Footer></>
     },
     {
       path:"/student/:id/stuAbt", 
@@ -55,7 +55,7 @@ function App() {
       element:<><Navbar></Navbar><StudentInfo></StudentInfo><Footer></Footer></>
     }
     ,{
-      path:"/department",
+      path:"/student/:id/department",
       element:<><Navbar></Navbar> <Department></Department><Footer></Footer></>
     },
     {

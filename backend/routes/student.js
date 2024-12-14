@@ -64,11 +64,6 @@ router.get('/:id/form',async (req,res)=>{
 })
 
 router.post('/:id/form',(req,res)=>{
-    // Student.create(req.body)
-    // .then(Student => res.json(Student))
-    // .catch(err => res.json(err))
-
-
     console.log("Request Body:", req.body); // Log the request body
     Student.create(req.body)
       .then(student => {
@@ -81,6 +76,76 @@ router.post('/:id/form',(req,res)=>{
       });
 })
 
-// data is not sendign please check it once 
+
+
+// student path to issue component
+
+
+
+router.get('/:id/compForm',async (req,res)=>{
+    const id = req.params.id;
+    try{
+        const user = await Components.find( { uniqueId: id}); // Assuming `Register` is your user model
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Respond with user data
+        
+        res.json({user});
+    } catch{
+        // if user is not found
+        res.redirect('/')
+        // to login once more
+    }
+    // res.send(`this is the form page for student id ${id}`)
+})
+
+
+
+router.post('/:id/compForm',async (req,res)=>{
+    console.log("Request Body:", req.body); // Log the request body
+
+    const id = req.params.id;
+
+    let dataSet = {
+        // the reqest body contain data in teh form of array of objects
+        components:req.body
+    }
+
+    // find the data in the student info dabase and add the necessary details form that
+    try{
+        const user = await Student.findOne( { uniqueId: id}); 
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Respond with user data
+        dataSet={
+            ...dataSet ,// to keep the previous data intact 
+            name:user.name,
+            clgid:user.clgid,
+            branch:user.branch,
+            uniqueId:user.uniqueId,
+        }
+    } catch{
+        // if user is not found
+        res.redirect('/')
+        // to login once more error occured.
+    }
+
+
+    Components.create(dataSet)
+      .then(Components => {
+        console.log("Student Saved:", Components); // Log the saved component
+        res.json(Components);
+      })
+      .catch(err => {
+        console.error("Error Saving Student:", err); // Log the error
+        res.status(500).json(err);
+      });
+})
 
 module.exports = router

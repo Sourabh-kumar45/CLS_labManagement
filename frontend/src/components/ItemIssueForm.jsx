@@ -1,13 +1,20 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ItemIssueForm = () => {
   const [itemsList, setItemsList] = useState([]);
   const [currentItem, setCurrentItem] = useState({ item: "", quantity: 1 });
-
-  const items = ["Breadboard", "Capacitor", "Inductor", "Resistor", "Wire"]; // Example items for dropdown
+  const [items, setItems] = useState(["Breadboard", "Capacitor", "Inductor", "Resistor", "Wire"]); // Initial dropdown items
+  const {id} = useParams()
+  const navigate=useNavigate()
 
   const handleChange = (field, value) => {
     setCurrentItem({ ...currentItem, [field]: value });
+  };
+
+  const handleNewItemChange = (field, value) => {
+    setNewItem({ ...newItem, [field]: value });
   };
 
   const addItem = () => {
@@ -17,34 +24,56 @@ const ItemIssueForm = () => {
     }
   };
 
+  const addNewItem = () => {
+    if (newItem.item && newItem.quantity > 0) {
+      setItemsList([...itemsList, newItem]);
+      if (!items.includes(newItem.item)) {
+        setItems([...items, newItem.item]);
+      }
+      setNewItem({ item: "", quantity: 1 });
+      setShowCustomItem(false); // Hide custom item section after adding
+    }
+  };
+
   const removeItem = (index) => {
     const updatedItemsList = itemsList.filter((_, i) => i !== index);
     setItemsList(updatedItemsList);
   };
 
+  // sending data to backend.
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission (e.g., send itemsList to API or log it)
+    // Handle form submission 
+
+    axios.post(`http://localhost:3000/student/${id}/compForm`,itemsList)
+    .then((result) => {
+      console.log(result);
+      navigate(`/student/${id}`,{ state: { message: "component form submitted succesfully", type: "success" } });
+    })
+    .catch((err) => {
+      console.error(err);
+      // setErrorMessage({ errorType: 'error', message: 'component form was not Submitted ! try again' });
+      // setErrorTimestamp(Date.now()); // Update timestamp
+    });
+
     console.log(itemsList);
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
-        {/* Form Section and Added Items Section Combined */}
         <div className="bg-white p-8 rounded-lg shadow-md w-full flex flex-col justify-between">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-700">Issue Items Form</h2>
-            <h3 className="text-lg font-bold text-gray-700 ">Added Items</h3>
-          </div> 
+            <h3 className="text-lg font-bold text-gray-700">Added Items</h3>
+          </div>
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-6">
             <div className="w-full md:w-1/2" style={{ maxHeight: "400px", overflowY: "auto" }}>
               {/* Item Dropdown */}
               <div className="mb-4">
-                <label
-                  htmlFor="item"
-                  className="block text-gray-700 font-medium mb-2"
-                >
+                <label htmlFor="item" className="block text-gray-700 font-medium mb-2">
                   Select Item
                 </label>
                 <select
@@ -53,7 +82,6 @@ const ItemIssueForm = () => {
                   value={currentItem.item}
                   onChange={(e) => handleChange("item", e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  required
                 >
                   <option value="">Select an item</option>
                   {items.map((itemName, idx) => (
@@ -66,10 +94,7 @@ const ItemIssueForm = () => {
 
               {/* Quantity Input */}
               <div className="mb-4">
-                <label
-                  htmlFor="quantity"
-                  className="block text-gray-700 font-medium mb-2"
-                >
+                <label htmlFor="quantity" className="block text-gray-700 font-medium mb-2">
                   Quantity
                 </label>
                 <input
@@ -77,7 +102,7 @@ const ItemIssueForm = () => {
                   id="quantity"
                   name="quantity"
                   value={currentItem.quantity}
-                  onChange={(e) => handleChange("quantity", e.target.value)}
+                  onChange={(e) => handleChange("quantity", parseInt(e.target.value) || 1)}
                   min="1"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                   required

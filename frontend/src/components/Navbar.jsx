@@ -21,8 +21,8 @@ const Navbar = () => {
             {id ? (
               // Links for signed-in users
               <>
-                <a href="/department" className="text-gray-700 hover:text-blue-600">Department</a>
-                <a href="/student" className="text-gray-700 hover:text-blue-600">Student</a>
+                <a href={`/student/${id}/department`} className="text-gray-700 hover:text-blue-600">Department</a>
+                <a href={`/student/${id}/compForm`} className="text-gray-700 hover:text-blue-600">Issue Item</a>
                 <a href="/achievement" className="text-gray-700 hover:text-blue-600">Achievements</a>
                 <a href="/help" className="text-gray-700 hover:text-blue-600">Help</a>
                 <a href="/" className="inline-block text-white bg-red-400 hover:bg-slate-300 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm">

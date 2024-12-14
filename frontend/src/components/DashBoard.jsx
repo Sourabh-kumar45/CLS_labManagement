@@ -2,6 +2,18 @@ import React from "react";
 
 const Dashboard = () => {
   return (
+    <>
+
+    <div className="relative w-screen h-[40vh] bg-gradient-to-r from-black/90 via-blue-800/85 to-black/90">
+        <img 
+            src="../images/lab.jpg" 
+            alt="Scenic view" 
+            className="w-full h-full object-cover opacity-90 mix-blend-overlay"
+        />
+    </div>
+
+
+    
     <div className="flex flex-col justify-center">
 
 <div className="flex justify-center">
@@ -30,12 +42,12 @@ const Dashboard = () => {
             </div>
           </main>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-blue-500 text-white font-bold py-2 px-4       rounded-lg hover:bg-blue-600 focus:outline-none">
+              <a href="/register" className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none">
                     Sign Up
-              </button>
-              <button className="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none">
+              </a>
+              <a href="/login" className="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none">
                     Login
-              </button>
+              </a>
           </div>
         </div>
       </div>
@@ -59,7 +71,7 @@ const Dashboard = () => {
         </main>
       </div>
     </div>
-
+</>
 
   );
 };
