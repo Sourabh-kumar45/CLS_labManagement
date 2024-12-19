@@ -19,7 +19,7 @@ import StudentForm from './components/StudentForm'
 import Home from './components/Home'
 import Help from './components/Help'
 import Achievement from './components/Achievement'
-import Check from './components/Check'
+import Check from './components/AboutStudent'
 
 function App() {
   const router = createBrowserRouter([

@@ -12,7 +12,7 @@ const Student = () => {
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
     const [errorMessage, setErrorMessage] = useState(null);
-    const location = useLocation();
+    // const location = useLocation();
 
     useEffect(() => {
         
@@ -59,7 +59,7 @@ const Student = () => {
           });
         //   setErrorTimestamp(Date.now());
         }
-      },[location.state]);
+      },[id]);
 
 
     // Render loading state
@@ -124,7 +124,7 @@ const Student = () => {
             </section>
 
             {/* alert box */}
-            <AlertBox type={errorMessage.type} message={errorMessage.message} />
+            {/* <AlertBox type={errorMessage.type} message={errorMessage.message} /> */}
         </div>
     );
 }

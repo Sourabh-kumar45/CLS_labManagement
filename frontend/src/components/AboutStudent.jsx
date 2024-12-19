@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Check = () => {
+const AboutStudent = () => {
   const [accordionData, setAccordionData] = useState([
     {
       id: 1,
@@ -300,6 +300,4 @@ const Check = () => {
   );
 };
 
-export default Check;
-
-
+export default AboutStudent;

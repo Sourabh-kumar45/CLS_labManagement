@@ -77,6 +77,8 @@ router.post('/:id/form',(req,res)=>{
 })
 
 
+
+
 // Endpoint for updating student data
 
 router.put('/:id/form', (req, res) => {
@@ -104,14 +106,16 @@ router.put('/:id/form', (req, res) => {
   });
 
 
+
+
+
+
 // student path to issue component
-
-
 
 router.get('/:id/compForm',async (req,res)=>{
     const id = req.params.id;
     try{
-        const user = await Components.find( { uniqueId: id}); // Assuming `Register` is your user model
+        const user = await Components.find( { uniqueId: id}); 
 
         if (!user) {
             return res.status(404).json({ error: "User not found" });
