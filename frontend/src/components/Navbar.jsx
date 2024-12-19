@@ -25,7 +25,25 @@ const Navbar = () => {
                 <a href={`/student/${id}/compForm`} className="text-gray-700 hover:text-blue-600">Issue Item</a>
                 <a href="/achievement" className="text-gray-700 hover:text-blue-600">Achievements</a>
                 <a href="/help" className="text-gray-700 hover:text-blue-600">Help</a>
-                <a href="/" className="inline-block text-white bg-red-400 hover:bg-slate-300 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm">
+                <a
+                  href="/"
+                  className="inline-block text-white bg-slate-300  hover:bg-red-400 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default link behavior (navigation)
+                    const isConfirmed = window.confirm("Are you sure you want to log out?");
+
+                    if (isConfirmed) {
+                      // Perform the logout functionality here
+                      // For example, clear session storage, cookies, or call the API for logging out
+                      // Example:
+                      // sessionStorage.removeItem("userToken");
+                      // localStorage.removeItem("userToken");
+                      
+                      // Then, redirect to the home page or login page after logout
+                      window.location.href = "/";
+                    }
+                  }}
+                >
                   Log Out
                 </a>
               </>

@@ -31,7 +31,7 @@ const Login = () => {
 
 
 
-  
+
   
   // function to handle the login submit.
   
@@ -51,7 +51,7 @@ const Login = () => {
       else{
         // here i have to navigate to the particluar route corresponsding to a user.
         const userId = result.data; 
-        navigate(`/student/${userId}`); 
+        navigate(`/student/${userId}`,{state: { message: "Login Succesfull!", type: "success" }}); 
       }
     })
     .catch(err => console.log(err))

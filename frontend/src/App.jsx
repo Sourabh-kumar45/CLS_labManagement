@@ -19,6 +19,7 @@ import StudentForm from './components/StudentForm'
 import Home from './components/Home'
 import Help from './components/Help'
 import Achievement from './components/Achievement'
+import Check from './components/Check'
 
 function App() {
   const router = createBrowserRouter([
@@ -63,8 +64,12 @@ function App() {
       element:<><Navbar></Navbar><Register></Register><Footer></Footer></>
     },
     {
-      path:"/error",
+      path:"/test",
       element:<><Navbar></Navbar><Test></Test></>
+    },
+    {
+      path:"/check",
+      element:<><Navbar></Navbar><Check></Check></>
     },
     {
       path:"/help",

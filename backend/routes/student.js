@@ -77,6 +77,32 @@ router.post('/:id/form',(req,res)=>{
 })
 
 
+// Endpoint for updating student data
+
+router.put('/:id/form', (req, res) => {
+    const id = req.params.id; // Extract the student ID from the URL
+  
+    console.log("Request Body:", req.body); // Log the incoming data
+  
+    // Update the student data in the database
+        Student.findOneAndUpdate(
+            { uniqueId: id }, // Search by uniqueId
+            req.body, // The data to update
+            { new: true, runValidators: true } // Return the updated document and run validations
+        )
+      .then(updatedStudent => {
+        if (!updatedStudent) {
+          return res.status(404).json({ message: 'Student not found' });
+        }
+        console.log("Student Updated:", updatedStudent); // Log the updated student data
+        res.json(updatedStudent); // Respond with the updated student
+      })
+      .catch(err => {
+        console.error("Error Updating Student:", err); // Log any errors
+        res.status(500).json({ error: 'Error updating student', details: err });
+      });
+  });
+
 
 // student path to issue component
 

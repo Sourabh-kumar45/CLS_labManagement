@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import StudentDashboard from './StudentDashboard';
+import AlertBox from './AlertBox';
+import { useLocation } from 'react-router-dom';
 
 
 const Student = () => {
@@ -10,6 +12,7 @@ const Student = () => {
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
     const [errorMessage, setErrorMessage] = useState(null);
+    const location = useLocation();
 
     useEffect(() => {
         
@@ -45,18 +48,18 @@ const Student = () => {
     }, [id]);
 
 
-    // // setting the errror message
+    // setting the errror message
 
     
-    //   useEffect(() => {
-    //     if (location.state?.message) {
-    //       setErrorMessage({
-    //         message: location.state.message,
-    //         type: location.state.type,
-    //       });
-    //       setErrorTimestamp(Date.now());
-    //     }
-    //   },[location.state]);
+      useEffect(() => {
+        if (location.state?.message) {
+          setErrorMessage({
+            message: location.state.message,
+            type: location.state.type,
+          });
+        //   setErrorTimestamp(Date.now());
+        }
+      },[location.state]);
 
 
     // Render loading state
@@ -75,10 +78,6 @@ const Student = () => {
     return (
         <div>
 
-            {/* <h1>Welcome, {userData.name}</h1>
-            <p>Email: {userData.email}</p>
-            <p>ID: {userData.id}</p> */}
-
             {/* card containing data */}
             <section className="flex flex-col sm:flex-row items-center justify-center sm:items-start gap-8 sm:gap-10 bg-zinc-100">
 
@@ -95,6 +94,8 @@ const Student = () => {
                 <p className="font-semibold text-lg text-gray-500">ID: {userData.clgid}</p>
                 </div>
             </div>
+                
+                <a href={`/student/${id}/form`} className="inline-block text-white bg-blue-600 hover:bg-blue-700 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm">Edit Details</a>
 
                 {/* Divider */}
                 <div className="border-t border-gray-300 my-4"></div>
@@ -123,7 +124,7 @@ const Student = () => {
             </section>
 
             {/* alert box */}
-            {/* <AlertBox type={errorMessage.type} message={errorMessage.message} /> */}
+            <AlertBox type={errorMessage.type} message={errorMessage.message} />
         </div>
     );
 }

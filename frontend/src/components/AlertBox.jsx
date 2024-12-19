@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa';
 
 const AlertBox = ({ type, message }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false); // Start with hidden state
 
   useEffect(() => {
-    // Set a timer to hide the alert after 5 seconds
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 3000);
+    if (message) {
+      setIsVisible(true); // Show the alert box when there's a new message
+      const timer = setTimeout(() => {
+        setIsVisible(false); // Hide the alert after 3 seconds
+      }, 3000);
 
-    // Clean up the timer if the component is unmounted
-    return () => clearTimeout(timer);
-  }, []);
+      // Clean up the timer when the component is unmounted or when message changes
+      return () => clearTimeout(timer);
+    }
+  }, [message]); // Dependency on message to show and hide when it changes
 
-  if (!isVisible) return null;
+  if (!isVisible) return null; // Do not render if not visible
 
   let alertClass = '';
   let IconComponent = null;
@@ -33,9 +35,9 @@ const AlertBox = ({ type, message }) => {
       IconComponent = FaInfoCircle;
       break;
     case 'warning':
-        alertClass = 'bg-yellow-100 text-yellow-700 border border-yellow-400'; 
-        IconComponent = FaExclamationCircle;
-        break
+      alertClass = 'bg-yellow-100 text-yellow-700 border border-yellow-400'; 
+      IconComponent = FaExclamationCircle;
+      break;
     default:
       alertClass = 'bg-gray-100 text-gray-700 border border-gray-400';
   }
@@ -50,6 +52,5 @@ const AlertBox = ({ type, message }) => {
     </div>
   );
 };
-
 
 export default AlertBox;

@@ -1,65 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import AlertBox from "./AlertBox";
 
 const StudentForm = () => {
-  const {id} = useParams()
+  const { id } = useParams(); // Student ID from URL
+  const navigate = useNavigate();
 
   const [studentInfo, setStudentInfo] = useState({
-    uniqueId:id,
+    uniqueId: id,
     name: "",
     clgid: "",
     branch: "",
     email: "",
-    program:"",
-  })
+    program: "",
+  });
 
-  const branches = ["Computer Science", "DSAI", "Electrical", "Mechanical", "ECE", "MSME","Mechatronics"];
-  const program = ["B.Tech","M.Tech","Msc","Phd"]
+  const branches = ["Computer Science", "DSAI", "Electrical", "Mechanical", "ECE", "MSME", "Mechatronics"];
+  const programs = ["B.Tech", "M.Tech", "MSc", "PhD"];
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate()
- 
-  
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Fetch existing data if editing
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true); // Indicates we're editing an existing record
+      axios
+        .get(`http://localhost:3000/student/${id}/form`) // Adjust the endpoint to your API
+        .then((response) => {
+          setStudentInfo(response.data); // Pre-fill the form with existing data
+        })
+        .catch((error) => {
+          console.error("Error fetching student data:", error);
+          setErrorMessage({ type: "error", message: "Failed to load student data." });
+        });
+    }
+  }, [id]);
 
   const handleChange = (field, value) => {
     setStudentInfo({ ...studentInfo, [field]: value });
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // submitting the data to the backend.
-    // make a fix that only one time data is being enter in the database.
-    axios.post(`http://localhost:3000/student/${id}/form`,studentInfo)
-    .then((result) => {
-      console.log(result);
-      navigate(`/student/${id}`,{ state: { message: "from submitted succesfully", type: "success" } });
-    })
-    .catch((err) => {
-      console.error(err);
-      setErrorMessage({ errorType: 'error', message: 'Form was not Submitted ! try again' });
-      // setErrorTimestamp(Date.now()); // Update timestamp
-    });
 
-    // to log out student info
-    console.log(studentInfo);
+    const endpoint = id
+      ? `http://localhost:3000/student/${id}/form` // For updating
+      : `http://localhost:3000/student`; // For creating
+
+    const method = id ? "put" : "post"; // Use PUT for editing, POST for creating
+
+    axios[method](endpoint, studentInfo)
+      .then((response) => {
+        console.log(response);
+        navigate(`/student/${response.data.uniqueId}`, {
+          state: { message: isEditing ? "Student updated successfully!" : "Student created successfully!", type: "success" },
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorMessage({ type: "error", message: "Form submission failed. Please try again." });
+      });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-gray-700 mb-6">
-          Student Information Form
+          {isEditing ? "Edit Student Information" : "Create Student"}
         </h2>
         <form onSubmit={handleSubmit}>
           {/* Name Input */}
           <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
               Name
             </label>
             <input
@@ -76,10 +89,7 @@ const StudentForm = () => {
 
           {/* ID Input */}
           <div className="mb-4">
-            <label
-              htmlFor="clgid"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="clgid" className="block text-gray-700 font-medium mb-2">
               Student ID
             </label>
             <input
@@ -96,10 +106,7 @@ const StudentForm = () => {
 
           {/* Email Input */}
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
               Email
             </label>
             <input
@@ -116,10 +123,7 @@ const StudentForm = () => {
 
           {/* Branch Dropdown */}
           <div className="mb-4">
-            <label
-              htmlFor="branch"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="branch" className="block text-gray-700 font-medium mb-2">
               Branch
             </label>
             <select
@@ -130,7 +134,9 @@ const StudentForm = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
               required
             >
-              <option value="" disabled>Select your branch</option>
+              <option value="" disabled>
+                Select your branch
+              </option>
               {branches.map((branch, idx) => (
                 <option key={idx} value={branch}>
                   {branch}
@@ -139,12 +145,9 @@ const StudentForm = () => {
             </select>
           </div>
 
-          {/* program Dropdown */}
+          {/* Program Dropdown */}
           <div className="mb-4">
-            <label
-              htmlFor="program"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="program" className="block text-gray-700 font-medium mb-2">
               Program
             </label>
             <select
@@ -155,8 +158,10 @@ const StudentForm = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
               required
             >
-              <option value="" disabled>Select your program</option>
-              {program.map((program, idx) => (
+              <option value="" disabled>
+                Select your program
+              </option>
+              {programs.map((program, idx) => (
                 <option key={idx} value={program}>
                   {program}
                 </option>
@@ -170,16 +175,24 @@ const StudentForm = () => {
               type="submit"
               className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
             >
-              Submit
+              {isEditing ? "Update Student" : "Create Student"}
             </button>
           </div>
         </form>
-        {/* {errorMessage && (
-        <AlertBox message={errorMessage.message} type={errorMessage.type} key={errorTimestamp} />
-      )} */}
+        {errorMessage && (
+        <AlertBox message={errorMessage.message} type={errorMessage.type} />
+        )}
       </div>
     </div>
   );
 };
 
 export default StudentForm;
+
+{/* {errorMessage && (
+  <div className={`mt-4 p-4 border rounded-lg bg-${errorMessage.type === "error" ? "red" : "green"}-100 text-${errorMessage.type === "error" ? "red" : "green"}-700`}>
+    {errorMessage.message}
+  </div>
+)} */}
+
+// path me changes kiye hai usko bad me theek karna hai 

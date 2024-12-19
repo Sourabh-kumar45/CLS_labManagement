@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import AlertBox from "./AlertBox";
 
 const ItemIssueForm = () => {
   const [itemsList, setItemsList] = useState([]);
   const [currentItem, setCurrentItem] = useState({ item: "", quantity: 1 });
   const [items, setItems] = useState(["Breadboard", "Capacitor", "Inductor", "Resistor", "Wire"]); // Initial dropdown items
+  const [errorMessage, setErrorMessage] = useState(null);
   const {id} = useParams()
   const navigate=useNavigate()
 
@@ -13,25 +15,11 @@ const ItemIssueForm = () => {
     setCurrentItem({ ...currentItem, [field]: value });
   };
 
-  const handleNewItemChange = (field, value) => {
-    setNewItem({ ...newItem, [field]: value });
-  };
 
   const addItem = () => {
     if (currentItem.item && currentItem.quantity > 0) {
       setItemsList([...itemsList, currentItem]);
       setCurrentItem({ item: "", quantity: 1 });
-    }
-  };
-
-  const addNewItem = () => {
-    if (newItem.item && newItem.quantity > 0) {
-      setItemsList([...itemsList, newItem]);
-      if (!items.includes(newItem.item)) {
-        setItems([...items, newItem.item]);
-      }
-      setNewItem({ item: "", quantity: 1 });
-      setShowCustomItem(false); // Hide custom item section after adding
     }
   };
 
@@ -53,7 +41,7 @@ const ItemIssueForm = () => {
     })
     .catch((err) => {
       console.error(err);
-      // setErrorMessage({ errorType: 'error', message: 'component form was not Submitted ! try again' });
+      setErrorMessage({ type: 'error', message: 'component form was not Submitted ! try again later' });
       // setErrorTimestamp(Date.now()); // Update timestamp
     });
 
@@ -153,6 +141,10 @@ const ItemIssueForm = () => {
           </form>
         </div>
       </div>
+       {/* alert box */}
+        {errorMessage &&
+               <AlertBox type={errorMessage.type} message={errorMessage.message} />
+        }
     </div>
   );
 };
