@@ -159,6 +159,7 @@ router.post('/:id/compForm',async (req,res)=>{
             clgid:user.clgid,
             branch:user.branch,
             uniqueId:user.uniqueId,
+            returnStatus:"Not Returned"
         }
     } catch{
         // if user is not found
@@ -177,5 +178,76 @@ router.post('/:id/compForm',async (req,res)=>{
         res.status(500).json(err);
       });
 })
+
+
+// Endpoint for updating component Status.
+
+router.put('/:id/compForm', (req, res) => {
+  const { returnStatus } = req.body;
+  const uniqueId = req.params.id; // Correctly assign uniqueId from params
+
+  Components.findOneAndUpdate(
+    { uniqueId }, // Search by uniqueId
+    { $set: { returnStatus } }, // Update the returnStatus
+    { new: true, runValidators: true } // Return updated document and run validations
+  )
+    .then((updatedComponents) => {
+      if (!updatedComponents) {
+        return res.status(404).json({ message: 'Item not found' });
+      }
+      res.json(updatedComponents); // Respond with updated data
+    })
+    .catch((err) => {
+      console.error("Error updating item:", err);
+      res.status(500).json({ error: 'Error updating item', details: err });
+    });
+});
+
+
+
+
+// router.put('/:id/CompForm', (req, res) => {
+//   const {returnStatus } = req.body;
+//   const {uniqueId} = req.params.id;
+//   Components.findOneAndUpdate(
+//     { uniqueId }, // Search by uniqueId
+//     { $set: { returnStatus } }, // Update returnStatus
+//     { new: true, runValidators: true } // Options
+//   )
+//   .then(updatedComponents => {
+//     if (!updatedComponents) {
+//       return res.status(404).json({ message: 'Item not found' });
+//     }
+//     res.json(updatedComponents); // Send updated document
+//   })
+//   .catch(err => {
+//     console.error("Error updating item:", err);
+//     res.status(500).json({ error: 'Error updating item', details: err });
+//   });
+// });
+
+// router.put('/:id/CompForm', (req, res) => {
+//     const id = req.params.id; // Extract the student ID from the URL
+  
+//     console.log("Request Body:", req.body); // Log the incoming data
+  
+//     // Update the student data in the database
+//         Components.findOneAndUpdate(
+//             { uniqueId: id }, // Search by uniqueId
+//             req.body, // The data to update
+//             { new: true, runValidators: true } // Return the updated document and run validations
+//         )
+//       .then(updatedComponents => {
+//         if (!updatedComponents) {
+//           return res.status(404).json({ message: 'Student not found' });
+//         }
+//         console.log("Student Updated:", updatedComponents); // Log the updated student data
+//         res.json(updatedComponents); // Respond with the updated student
+//       })
+//       .catch(err => {
+//         console.error("Error Updating Student:", err); // Log any errors
+//         res.status(500).json({ error: 'Error updating student', details: err });
+//       });
+//   });
 
 module.exports = router

@@ -33,6 +33,10 @@ const componentSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    returnStatus:{
+        type:String,
+        required:true
+    }
 })
 
 module.exports = mongoose.model('Components',componentSchema)

@@ -34,8 +34,9 @@ const StuAbt = () => {
             const transformedData = response.data.user.map((user, index) => ({
               id: index + 1, // Unique ID for each item
               issueDate: new Date().toISOString().split("T")[0], // Current date
-              status: "Not Returned", // Default status
-              issuedId: `#${user._id.substring(0, 5)}`, // Create issuedId from the user's ID
+              status: user.returnStatus,
+              issuedId:`#${user._id.substring(0, 5)}`, // Create issuedId from the user's ID,
+              uniqueId:user.uniqueId,
               items: user.components.map((component) => ({
                 name: component.item,
                 quantity: component.quantity,
@@ -65,15 +66,53 @@ const StuAbt = () => {
     );
   };
 
-  const markAsReturned = (id) => {
-    setAccordionData((prevData) =>
-      prevData.map((block) =>
-        block.id === id
-          ? { ...block, status: "Returned", daysRemaining: 0 }
-          : block
-      )
-    );
+
+  // modifed version of markeAsReturned
+  const markAsReturned = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/student/${id}/compForm`, {
+        method: 'PUT', // HTTP method for updating
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          uniqueId: id, // Pass the item's uniqueId
+          returnStatus: 'Returned' // Update status to "Returned"
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const updatedData = await response.json();
+      console.log("Update successful:", updatedData);
+  
+      // Update the UI to reflect the new status
+      alert('Items successfully marked as returned!');
+      // Add logic to refresh or update the UI state here
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert('Failed to mark items as returned. Please try again.');
+    }
   };
+  
+
+  // const markAsReturned = (id) => {
+  //   setAccordionData((prevData) =>
+  //     prevData.map((block) =>
+  //       block.id === id
+  //         ? { ...block, status: "Returned", daysRemaining: 0 }
+  //         : block
+  //     )
+  //   );
+  // };
+
+  
+  const handleReturn = ()=>{
+    // this would set the status of the component status to returned.
+    // i.e i have to send a edit request from here.
+  }
 
   const reissueItems = (id) => {
     setAccordionData((prevData) =>
@@ -85,8 +124,13 @@ const StuAbt = () => {
     );
   };
 
+
   return (
     <div className="p-6 space-y-4">
+      <div>
+      <h1>Accordion Data</h1>
+      <pre>{JSON.stringify(accordionData, null, 2)}</pre>
+    </div>
       {accordionData.map((block) => (
         <div
           key={block.id}
@@ -150,7 +194,9 @@ const StuAbt = () => {
               </table>
               <div className="mt-4 flex space-x-4">
                 <button
-                  onClick={() => markAsReturned(block.id)}
+                  // onClick={() => markAsReturned(block.id)}
+                  onClick={() => markAsReturned(block.uniqueId)} // Call the function with the item's ID
+                  
                   className={`px-4 py-2 rounded-md ${
                     block.status === "Returned"
                       ? "bg-gray-400 text-white cursor-not-allowed"
