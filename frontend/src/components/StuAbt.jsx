@@ -9,21 +9,7 @@ const StuAbt = () => {
 
   
   const [accordionData, setAccordionData] = useState([])
-  // data Structure
-  //   {
-  //     id: 1,
-  //     issueDate: "2024-12-19",
-  //     status: "Not Returned",
-  //     issuedId: "#12345",
-  //     items: [
-  //       { name: "Item 1", quantity: 2 },
-  //       { name: "Item 2", quantity: 5 },
-  //       { name: "Item 3", quantity: 1 },
-  //     ],
-  //     remark: "Handle with care",
-  //     daysRemaining: 7,
-  //     isExpanded: false,
-  //   }
+
 
     useEffect(() => {
       axios
@@ -67,18 +53,27 @@ const StuAbt = () => {
   };
 
 
-  // modifed version of markeAsReturned
+  // Helper function to calculate days remaining
+  const calculateDaysRemaining = (issueDate) => {
+    const currentDate = new Date();
+    const issueDateObj = new Date(issueDate);
+    
+    const timeDifference = currentDate - issueDateObj;
+    const daysRemaining = Math.floor(timeDifference / (1000 * 3600 * 24)); // Convert milliseconds to days
+    
+    return daysRemaining > 0 ? daysRemaining : 0; // Ensure daysRemaining doesn't go negative
+  };
+
   const markAsReturned = async (issuedId) => {
     try {
       const response = await fetch(`http://localhost:3000/student/${id}/compForm/${issuedId}`, {
         method: 'PUT', // HTTP method for updating
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // uniqueId: id, // Pass the item's uniqueId
-          returnStatus: 'Returned' // Update status to "Returned"
-        })
+          returnStatus: 'Returned', // Update status to "Returned"
+        }),
       });
   
       if (!response.ok) {
@@ -88,49 +83,65 @@ const StuAbt = () => {
       const updatedData = await response.json();
       console.log("Update successful:", updatedData);
   
-      // Update the UI to reflect the new status
+      // Update the UI immediately after status update
+      setAccordionData((prevData) =>
+        prevData.map((block) =>
+          block.issuedId === issuedId
+            ? { ...block, status: 'Returned', daysRemaining: 0 } // Set the status and reset days remaining
+            : block
+        )
+      );
+  
       alert('Items successfully marked as returned!');
-      // Add logic to refresh or update the UI state here
     } catch (error) {
       console.error("Error updating status:", error);
       alert('Failed to mark items as returned. Please try again.');
     }
   };
   
-
-  // const markAsReturned = (id) => {
-  //   setAccordionData((prevData) =>
-  //     prevData.map((block) =>
-  //       block.id === id
-  //         ? { ...block, status: "Returned", daysRemaining: 0 }
-  //         : block
-  //     )
-  //   );
-  // };
-
+  const reissueItems = async (issuedId) => {
+    try {
+      // Update the status and issue date in the database for reissuance
+      const response = await axios.put(
+        `http://localhost:3000/student/${id}/compForm/${issuedId}`, // Endpoint to reissue items
+        {
+          returnStatus: "Not Returned", // Reset return status
+          issueDate: new Date().toISOString().split("T")[0], // Set the new issue date (current date)
+          daysRemaining: 7, // Reset the days remaining or any other relevant field
+        }
+      );
   
-  const handleReturn = ()=>{
-    // this would set the status of the component status to returned.
-    // i.e i have to send a edit request from here.
-  }
-
-  const reissueItems = (id) => {
-    setAccordionData((prevData) =>
-      prevData.map((block) =>
-        block.id === id
-          ? { ...block, status: "Not Returned", daysRemaining: 7 }
-          : block
-      )
-    );
+      if (response.status === 200) {
+        // Update the front-end data immediately after reissue
+        setAccordionData((prevData) =>
+          prevData.map((block) =>
+            block.issuedId === issuedId
+              ? { 
+                  ...block, 
+                  status: "Not Returned", 
+                  issueDate: response.data.issueDate, // Use the updated issueDate from the backend
+                  daysRemaining: 7 
+                }
+              : block
+          )
+        );
+        alert('Items successfully reissued!');
+      }
+    } catch (error) {
+      console.error("Error reissuing items:", error);
+      alert('Failed to reissue items. Please try again.');
+    }
   };
+  
 
 
   return (
-    <div className="p-6 space-y-4">
-      <div>
+    <div className="p-6 space-y-4" >
+      {/* used for debugging */}
+      {/* <div>
       <h1>Accordion Data</h1>
       <pre>{JSON.stringify(accordionData, null, 2)}</pre>
-    </div>
+    </div> */}
       {accordionData.map((block) => (
         <div
           key={block.id}
@@ -207,7 +218,7 @@ const StuAbt = () => {
                   Return Items
                 </button>
                 <button
-                  onClick={() => reissueItems(block.id)}
+                  onClick={() => reissueItems(block.issuedId)}
                   className={`px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700`}
                 >
                   Reissue Items
@@ -223,20 +234,3 @@ const StuAbt = () => {
 
 export default StuAbt
 
-
-
-
-// import { useState, useEffect } from "react";
-// import axios from "axios";
-
-// const StudentComponent = ({ id }) => {
-//   const [accordionData, setAccordionData] = useState([]);
-
- 
-
-//   return (
-   
-//   );
-// };
-
-// export default StudentComponent;

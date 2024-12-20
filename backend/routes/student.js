@@ -35,6 +35,7 @@ router.get('/:id',async (req,res)=>{
 
 
 
+
 // student form path to enter academic details
 
 router.get('/:id/form',async (req,res)=>{
@@ -104,6 +105,13 @@ router.put('/:id/form', (req, res) => {
         res.status(500).json({ error: 'Error updating student', details: err });
       });
   });
+
+
+
+
+
+
+
 
 
 
@@ -180,80 +188,73 @@ router.post('/:id/compForm',async (req,res)=>{
 })
 
 
-// Endpoint for updating component Status.
 
-router.put('/:id/compForm/:issueId', (req, res) => {
-  const { returnStatus } = req.body;
-  const uniqueId = req.params.id; // Correctly assign uniqueId from params
-  const issueId = req.params.issueId;
+// Route to handle reissue and update status 
+router.put('/:id/compForm/:issuedId', async (req, res) => {
+  const { id, issuedId } = req.params;
+  const { returnStatus, issueDate, daysRemaining } = req.body; // Get the data to update
 
-  // Components.findOneAndUpdate(
-  //   { uniqueId }, // Search by uniqueId
-  //   { $set: { returnStatus } }, // Update the returnStatus
-  //   { new: true, runValidators: true } // Return updated document and run validations
-  // )
-  Components.findOneAndUpdate(
-    { "_id": issueId }, // Search for the document by its _id
-    { $set: { "returnStatus": "Returned" } }, // Set the new returnStatus
-    { new: true, runValidators: true } // Return the updated document and run validations
-  )
-    .then((updatedComponents) => {
-      if (!updatedComponents) {
-        return res.status(404).json({ message: 'Item not found' });
-      }
-      res.json(updatedComponents); // Respond with updated data
-    })
-    .catch((err) => {
-      console.error("Error updating item:", err);
-      res.status(500).json({ error: 'Error updating item', details: err });
-    });
+  try {
+    // Step 1: Find the component by issuedId
+    console.log("Attempting to find component with issuedId:", issuedId);
+    const updatedComponent = await Components.findOneAndUpdate(
+      { "_id": issuedId },
+      { 
+        $set: {
+          "returnStatus": returnStatus,
+          "issueDate": issueDate,
+          "daysRemaining" : daysRemaining,
+        }
+      },
+      { new: true, runValidators: true } // Ensure validation and return the updated record
+    );
+    
+    if (!updatedComponent) {
+      console.log("No component found with issuedId:", issuedId);
+      return res.status(404).json({ message: 'Component not found' });
+    }
+
+    console.log("Component successfully updated:", updatedComponent);
+
+    // Step 2: Return the updated component as response
+    res.json(updatedComponent);
+  } catch (error) {
+    // Log detailed error info
+    
+    // Respond with the error details
+    res.status(500).json({ error: 'Error reissuing component', details: error.message });
+  }
 });
 
 
+module.exports = router
 
 
-// router.put('/:id/CompForm', (req, res) => {
-//   const {returnStatus } = req.body;
-//   const {uniqueId} = req.params.id;
+
+
+
+// // Endpoint for updating component Status.
+
+// router.put('/:id/compForm/:issueId', (req, res) => {
+//   const { returnStatus } = req.body;
+//   const uniqueId = req.params.id; // Correctly assign uniqueId from params
+//   const issueId = req.params.issueId;
+
 //   Components.findOneAndUpdate(
-//     { uniqueId }, // Search by uniqueId
-//     { $set: { returnStatus } }, // Update returnStatus
-//     { new: true, runValidators: true } // Options
+//     { "_id": issueId }, // Search for the document by its _id
+//     { $set: { "returnStatus": returnStatus } }, // Set the new returnStatus
+//     { new: true, runValidators: true } // Return the updated document and run validations
 //   )
-//   .then(updatedComponents => {
-//     if (!updatedComponents) {
-//       return res.status(404).json({ message: 'Item not found' });
-//     }
-//     res.json(updatedComponents); // Send updated document
-//   })
-//   .catch(err => {
-//     console.error("Error updating item:", err);
-//     res.status(500).json({ error: 'Error updating item', details: err });
-//   });
+//     .then((updatedComponents) => {
+//       if (!updatedComponents) {
+//         return res.status(404).json({ message: 'Item not found' });
+//       }
+//       res.json(updatedComponents); // Respond with updated data
+//     })
+//     .catch((err) => {
+//       console.error("Error updating item:", err);
+//       res.status(500).json({ error: 'Error updating item', details: err });
+//     });
 // });
 
-// router.put('/:id/CompForm', (req, res) => {
-//     const id = req.params.id; // Extract the student ID from the URL
-  
-//     console.log("Request Body:", req.body); // Log the incoming data
-  
-//     // Update the student data in the database
-//         Components.findOneAndUpdate(
-//             { uniqueId: id }, // Search by uniqueId
-//             req.body, // The data to update
-//             { new: true, runValidators: true } // Return the updated document and run validations
-//         )
-//       .then(updatedComponents => {
-//         if (!updatedComponents) {
-//           return res.status(404).json({ message: 'Student not found' });
-//         }
-//         console.log("Student Updated:", updatedComponents); // Log the updated student data
-//         res.json(updatedComponents); // Respond with the updated student
-//       })
-//       .catch(err => {
-//         console.error("Error Updating Student:", err); // Log any errors
-//         res.status(500).json({ error: 'Error updating student', details: err });
-//       });
-//   });
 
-module.exports = router
