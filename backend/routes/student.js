@@ -182,14 +182,20 @@ router.post('/:id/compForm',async (req,res)=>{
 
 // Endpoint for updating component Status.
 
-router.put('/:id/compForm', (req, res) => {
+router.put('/:id/compForm/:issueId', (req, res) => {
   const { returnStatus } = req.body;
   const uniqueId = req.params.id; // Correctly assign uniqueId from params
+  const issueId = req.params.issueId;
 
+  // Components.findOneAndUpdate(
+  //   { uniqueId }, // Search by uniqueId
+  //   { $set: { returnStatus } }, // Update the returnStatus
+  //   { new: true, runValidators: true } // Return updated document and run validations
+  // )
   Components.findOneAndUpdate(
-    { uniqueId }, // Search by uniqueId
-    { $set: { returnStatus } }, // Update the returnStatus
-    { new: true, runValidators: true } // Return updated document and run validations
+    { "_id": issueId }, // Search for the document by its _id
+    { $set: { "returnStatus": "Returned" } }, // Set the new returnStatus
+    { new: true, runValidators: true } // Return the updated document and run validations
   )
     .then((updatedComponents) => {
       if (!updatedComponents) {

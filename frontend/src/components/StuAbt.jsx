@@ -35,7 +35,7 @@ const StuAbt = () => {
               id: index + 1, // Unique ID for each item
               issueDate: new Date().toISOString().split("T")[0], // Current date
               status: user.returnStatus,
-              issuedId:`#${user._id.substring(0, 5)}`, // Create issuedId from the user's ID,
+              issuedId:user._id,//`#${user._id.substring(0, 5)}`, // Create issuedId from the user's ID,
               uniqueId:user.uniqueId,
               items: user.components.map((component) => ({
                 name: component.item,
@@ -68,15 +68,15 @@ const StuAbt = () => {
 
 
   // modifed version of markeAsReturned
-  const markAsReturned = async (id) => {
+  const markAsReturned = async (issuedId) => {
     try {
-      const response = await fetch(`http://localhost:3000/student/${id}/compForm`, {
+      const response = await fetch(`http://localhost:3000/student/${id}/compForm/${issuedId}`, {
         method: 'PUT', // HTTP method for updating
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          uniqueId: id, // Pass the item's uniqueId
+          // uniqueId: id, // Pass the item's uniqueId
           returnStatus: 'Returned' // Update status to "Returned"
         })
       });
@@ -195,7 +195,7 @@ const StuAbt = () => {
               <div className="mt-4 flex space-x-4">
                 <button
                   // onClick={() => markAsReturned(block.id)}
-                  onClick={() => markAsReturned(block.uniqueId)} // Call the function with the item's ID
+                  onClick={() => markAsReturned(block.issuedId)} // Call the function with the item's ID
                   
                   className={`px-4 py-2 rounded-md ${
                     block.status === "Returned"
