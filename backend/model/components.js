@@ -36,6 +36,10 @@ const componentSchema = new mongoose.Schema({
     returnStatus:{
         type:String,
         required:true
+    },
+    email:{
+        type:String,
+        required:true
     }
 })
 
