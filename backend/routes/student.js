@@ -5,27 +5,25 @@ const Register = require('../model/register')
 const Student = require('../model/student')
 
 router.get('/',(req,res)=>{
-    res.send("hello i am student part of backend")
+    res.send("This is the Student route")
 })
 
 
-// from here the data to each id no is send.
+// Sending the register Data
 router.get('/:id',async (req,res)=>{
     const id = req.params.id
     try{
-        const user = await Register.findById(id); // Assuming `Register` is your user model
+        const user = await Register.findById(id); 
 
         if (!user) {
             return res.status(404).json({ error: "User not found" });
-        }
-
-        // Respond with user data
-        
+        } 
         res.json({
             id: user.id,
             name: user.name,
             email: user.email,
         });
+
     } catch{
         // if user is not found
         res.redirect('/')
@@ -36,19 +34,16 @@ router.get('/:id',async (req,res)=>{
 
 
 
-// student form path to enter academic details
+// Student Form path to enter Details.
 
 router.get('/:id/form',async (req,res)=>{
     const id = req.params.id;
     try{
-        const user = await Student.findOne( { uniqueId: id}); // Assuming `Register` is your user model
+        const user = await Student.findOne( { uniqueId: id});
 
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
-
-        // Respond with user data
-        
         res.json({
             clgid: user.clgid,
             name: user.name,
@@ -77,10 +72,7 @@ router.post('/:id/form',(req,res)=>{
       });
 })
 
-
-
-
-// Endpoint for updating student data
+// Endpoint for updating existing Student data in the Student Form
 
 router.put('/:id/form', (req, res) => {
     const id = req.params.id; // Extract the student ID from the URL
@@ -227,34 +219,23 @@ router.put('/:id/compForm/:issuedId', async (req, res) => {
 });
 
 
+
+// forLogout  this would be later implemented.
+router.post('/:id/logout', (req, res) => {
+  if (req.session) {
+    // Destroy the session
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Error destroying session:", err);
+        return res.status(500).json({ message: "Error logging out" });
+      }
+      res.clearCookie("connect.sid"); // Clear session cookie (if you're using default session cookie name)
+      res.status(200).json({ message: "Logged out successfully" });
+    });
+  } else {
+    res.status(200).json({ message: "No active session to log out" });
+  }
+});
+
+
 module.exports = router
-
-
-
-
-
-// // Endpoint for updating component Status.
-
-// router.put('/:id/compForm/:issueId', (req, res) => {
-//   const { returnStatus } = req.body;
-//   const uniqueId = req.params.id; // Correctly assign uniqueId from params
-//   const issueId = req.params.issueId;
-
-//   Components.findOneAndUpdate(
-//     { "_id": issueId }, // Search for the document by its _id
-//     { $set: { "returnStatus": returnStatus } }, // Set the new returnStatus
-//     { new: true, runValidators: true } // Return the updated document and run validations
-//   )
-//     .then((updatedComponents) => {
-//       if (!updatedComponents) {
-//         return res.status(404).json({ message: 'Item not found' });
-//       }
-//       res.json(updatedComponents); // Respond with updated data
-//     })
-//     .catch((err) => {
-//       console.error("Error updating item:", err);
-//       res.status(500).json({ error: 'Error updating item', details: err });
-//     });
-// });
-
-

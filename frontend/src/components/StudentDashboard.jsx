@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 
 const StudentDashboard = () => {
-    const {id}  = useParams();
+    const {id}  = useParams(); // here id is unique id Given after the login is complete.
   return (
     <div>
        <section className="bg-gray-100 flex justify-center h-screen">

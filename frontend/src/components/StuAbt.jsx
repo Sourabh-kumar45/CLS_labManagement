@@ -136,7 +136,19 @@ const StuAbt = () => {
 
 
   return (
-    <div className="p-6 space-y-4" >
+    <div className="p-6 space-y-4">
+      {(accordionData === null || accordionData.length === 0) && (
+        <div>
+          Issue some Data to view them{" "}
+          <a
+            href={`/student/${id}/compForm`}
+            className="inline-block text-white bg-slate-300  hover:bg-red-400 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
+          >
+            Issue Item
+          </a>
+        </div>
+      )}
+
       {/* used for debugging */}
       {/* <div>
       <h1>Accordion Data</h1>
@@ -157,7 +169,9 @@ const StuAbt = () => {
               <p className="text-sm text-gray-500">Status</p>
               <p
                 className={`text-lg font-medium ${
-                  block.status === "Returned" ? "text-green-600" : "text-red-600"
+                  block.status === "Returned"
+                    ? "text-green-600"
+                    : "text-red-600"
                 }`}
               >
                 {block.status}
@@ -190,24 +204,30 @@ const StuAbt = () => {
               <table className="table-auto w-full mt-2 border-collapse border border-gray-300">
                 <thead>
                   <tr>
-                    <th className="border border-gray-300 px-4 py-2 text-left">Item Name</th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">Quantity</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">
+                      Item Name
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">
+                      Quantity
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {block.items.map((item, index) => (
                     <tr key={index}>
-                      <td className="border border-gray-300 px-4 py-2">{item.name}</td>
-                      <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {item.name}
+                      </td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {item.quantity}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
               <div className="mt-4 flex space-x-4">
                 <button
-                  // onClick={() => markAsReturned(block.id)}
                   onClick={() => markAsReturned(block.issuedId)} // Call the function with the item's ID
-                  
                   className={`px-4 py-2 rounded-md ${
                     block.status === "Returned"
                       ? "bg-gray-400 text-white cursor-not-allowed"

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import AlertBox from "./AlertBox";
+import StudentInfo from "./StudentInfo";
 
 const StudentForm = () => {
-  const { id } = useParams(); // Student ID from URL
+  const { id } = useParams();  // getting the unique id from the student.
   const navigate = useNavigate();
 
   const [studentInfo, setStudentInfo] = useState({
@@ -23,18 +24,23 @@ const StudentForm = () => {
 
   // Fetch existing data if editing
   useEffect(() => {
-    if (id) {
-      setIsEditing(true); // Indicates we're editing an existing record
-      axios
-        .get(`http://localhost:3000/student/${id}/form`) // Adjust the endpoint to your API
-        .then((response) => {
-          setStudentInfo(response.data); // Pre-fill the form with existing data
-        })
-        .catch((error) => {
-          console.error("Error fetching student data:", error);
-          setErrorMessage({ type: "error", message: "Failed to load student data." });
-        });
-    }
+        axios
+            .get(`http://localhost:3000/student/${id}/form`)
+            .then((response) => {
+                if (response.status === 200 && response.data && Object.keys(response.data).length > 0) {
+                    // Check if the data is not empty
+                    setStudentInfo(response.data); // Pre-fill the form with existing data
+                    setIsEditing(true);
+                } else {
+                    // If no data is returned, set userData to null (dashboard will be shown)
+                    setErrorMessage({ type: "error", message: "No data found in the database." });
+                    console.log("No data found in the database.");
+                }
+            })
+            .catch((err) => {
+                console.error("Error fetching data:", err);
+                  setErrorMessage({ type: "alert", message: "Failed to load student data." });
+            });
   }, [id]);
 
   const handleChange = (field, value) => {
@@ -44,11 +50,11 @@ const StudentForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const endpoint = id
+    const endpoint = isEditing // previoulsy here was id.
       ? `http://localhost:3000/student/${id}/form` // For updating
-      : `http://localhost:3000/student`; // For creating
+      : `http://localhost:3000/student/${id}/form`; // For creating
 
-    const method = id ? "put" : "post"; // Use PUT for editing, POST for creating
+    const method = isEditing ? "put" : "post"; // Use PUT for editing, POST for creating
 
     axios[method](endpoint, studentInfo)
       .then((response) => {
@@ -188,11 +194,3 @@ const StudentForm = () => {
 };
 
 export default StudentForm;
-
-{/* {errorMessage && (
-  <div className={`mt-4 p-4 border rounded-lg bg-${errorMessage.type === "error" ? "red" : "green"}-100 text-${errorMessage.type === "error" ? "red" : "green"}-700`}>
-    {errorMessage.message}
-  </div>
-)} */}
-
-// path me changes kiye hai usko bad me theek karna hai 
