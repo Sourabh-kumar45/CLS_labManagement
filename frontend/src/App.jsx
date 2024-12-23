@@ -20,6 +20,7 @@ import Home from './components/Home'
 import Help from './components/Help'
 import Achievement from './components/Achievement'
 import Check from './components/AboutStudent'
+import ItemIssueDepartmentList from './components/ItemIssueDepartmentList'
 
 function App() {
   const router = createBrowserRouter([
@@ -65,7 +66,7 @@ function App() {
     },
     {
       path:"/test",
-      element:<><Navbar></Navbar><Test></Test></>
+      element:<><Navbar></Navbar><ItemIssueDepartmentList></ItemIssueDepartmentList></>
     },
     {
       path:"/check",
