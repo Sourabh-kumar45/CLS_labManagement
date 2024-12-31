@@ -23,6 +23,15 @@ import Check from './components/AboutStudent'
 import ItemIssueDepartmentList from './components/ItemIssueDepartmentList'
 
 function App() {
+
+  // Example usage:
+  const studentName = "Sourabh";
+  const achievements = [
+    { title: "Top Performer in Math Olympiad", description: "Won the gold medal in the national-level math competition.", date: "June 2023" },
+    { title: "Community Service Award", description: "Recognized for 100+ hours of volunteer work in the community.", date: "August 2023" },
+    { title: "Science Fair Winner", description: "Secured 1st place for an innovative project on renewable energy.", date: "November 2023" }
+  ];
+
   const router = createBrowserRouter([
     {
       path:"/",
@@ -82,7 +91,7 @@ function App() {
     },
     {
       path:"/achievement",
-      element:<><Navbar></Navbar><Achievement></Achievement><Footer></Footer></>
+      element:<><Navbar></Navbar><Achievement studentName={studentName} achievements={achievements}></Achievement><Footer></Footer></>
     },
   ])
   
@@ -95,6 +104,7 @@ function App() {
 }
 
 export default App
+
 
 // return (
 //   <>
