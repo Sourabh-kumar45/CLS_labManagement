@@ -146,7 +146,7 @@ const Navbar = () => {
               // Links for signed-in users
               <>
                 <a href={`/student/${id}/department`} className="text-gray-700 hover:text-blue-600">Department</a>
-                <a href={`/student/${id}/compForm`} className="text-gray-700 hover:text-blue-600">Issue Item</a>
+                <a href={`/student/${id}/itemIssueDepartmentList`} className="text-gray-700 hover:text-blue-600">Issue Item</a>
                 <a href="/achievement" className="text-gray-700 hover:text-blue-600">Achievements</a>
                 <a href="/help" className="text-gray-700 hover:text-blue-600">Help</a>
                 <a

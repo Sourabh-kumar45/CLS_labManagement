@@ -41,6 +41,10 @@ function App() {
       element:<><Navbar></Navbar><StudentForm></StudentForm><Footer></Footer></>
     },
     {
+      path:"/student/:id/itemIssueDepartmentList",
+      element:<><Navbar></Navbar><ItemIssueDepartmentList></ItemIssueDepartmentList><Footer></Footer></>
+    },
+    {
       path:"/student/:id/compForm",
       element:<><Navbar></Navbar><ItemIssueForm></ItemIssueForm><Footer></Footer></>
     },
