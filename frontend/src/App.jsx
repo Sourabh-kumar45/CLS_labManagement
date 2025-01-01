@@ -21,6 +21,8 @@ import Help from './components/Help'
 import Achievement from './components/Achievement'
 import Check from './components/AboutStudent'
 import ItemIssueDepartmentList from './components/ItemIssueDepartmentList'
+import StudentList from './teacherComponents/StudentList'
+import IssueRequest from './teacherComponents/IssueRequest'
 
 function App() {
 
@@ -66,6 +68,14 @@ function App() {
       element:<><Navbar></Navbar><StuPrj></StuPrj><Footer></Footer></>
     },
     {
+      path:"/student/:id/help", 
+      element:<><Navbar></Navbar><Help></Help><Footer></Footer></>
+    },
+    {
+      path:"/student/:id/achievement", 
+      element:<><Navbar></Navbar><Achievement studentName={studentName} achievements={achievements}></Achievement><Footer></Footer></>
+    },
+    {
       path:"/user/:userName",
       element:<><Navbar></Navbar><StudentInfo></StudentInfo><Footer></Footer></>
     }
@@ -79,11 +89,11 @@ function App() {
     },
     {
       path:"/test",
-      element:<><Navbar></Navbar><ItemIssueDepartmentList></ItemIssueDepartmentList></>
+      element:<><Navbar></Navbar><StudentList></StudentList></>
     },
     {
       path:"/check",
-      element:<><Navbar></Navbar><Check></Check></>
+      element:<><Navbar></Navbar><IssueRequest/></>
     },
     {
       path:"/help",
