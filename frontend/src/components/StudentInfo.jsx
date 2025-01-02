@@ -2,45 +2,68 @@ import React from 'react';
 
 const StudentInfo = () => {
   return (
-    <section className="flex flex-col sm:flex-row items-center justify-center sm:items-start gap-8 sm:gap-10 bg-zinc-100 h-screen">
-
-      {/* Info Container */}
-      <div className="w-full sm:max-w-[60vw] md:max-w-[50vw] lg:max-w-[40vw] border border-gray-300 rounded-lg p-6 bg-gray-50 shadow-inner">
-        {/* Student Info */}
-      <div className="mb-4 flex gap-4">
-          {/* Image Container */}
-        <div className="border border-gray-300 rounded-lg h-20 w-20 overflow-hidden bg-gray-100">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhf1Nrw3E3Rci-8FmEz5KumCsaCDiRn4ievQ&s" alt="Student" className="object-cover w-full h-full" />
-        </div>
-        <div>
-          <p className="font-semibold text-2xl text-sky-600">Name of Student</p>
-          <p className="font-semibold text-lg text-gray-500">ID: 12342130</p>
-        </div>
+    <section className="pt-16 bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen flex flex-col items-center">
+      {/* Header Section */}
+      <div className="w-full bg-gradient-to-r from-blue-500 to-sky-400 text-white py-12 text-center">
+        <h1 className="text-3xl font-bold">Student Profile</h1>
+        <p className="text-lg mt-2">Welcome to the detailed profile view</p>
       </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-300 my-4"></div>
-
-        <div className="flex flex-col gap-2 font-medium text-gray-600 pb-3">
-          <span>Program</span>
-          <span>Department</span>
-          <span>Branch</span> 
+      {/* Content Section */}
+      <div className="w-full max-w-7xl px-6 sm:px-12 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Profile Section */}
+        <div className="flex flex-col items-center">
+          <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-sky-500">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhf1Nrw3E3Rci-8FmEz5KumCsaCDiRn4ievQ&s"
+              alt="Student"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <h2 className="text-2xl font-semibold text-gray-700 mt-4">Name of Student</h2>
+          <p className="text-gray-500 text-lg">ID: 12342130</p>
         </div>
 
-        {/* Projects */}
-        <div className="flex items-center gap-2 mb-2 text-gray-600">
-          <i className="w-4 fa-regular fa-eye text-sky-600"></i>
-          <span className="hover:text-sky-600 cursor-pointer transition-colors">Projects</span>
+        {/* Info Section */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">Personal Information</h3>
+          <ul className="text-gray-600 space-y-2">
+            <li><strong>Program:</strong> BTech</li>
+            <li><strong>Department:</strong>Electrical Engg.</li>
+            <li><strong>Branch:</strong>Electrical Engg.</li>
+          </ul>
         </div>
 
-        {/* About */}
-        <div className="flex items-center gap-2 mb-2 text-gray-600">
-          <i className="w-4 fa-regular fa-user text-sky-600"></i>
-          <span className="hover:text-sky-600 cursor-pointer transition-colors">About</span>
+        {/* Links Section */}
+        <div className="col-span-1">
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">Quick Links</h3>
+          <ul className="space-y-3">
+            <li>
+              <a
+                href="#projects"
+                className="text-sky-600 hover:underline flex items-center gap-2"
+              >
+                <i className="fa-regular fa-eye"></i> View Projects
+              </a>
+            </li>
+            <li>
+              <a
+                href="#about"
+                className="text-sky-600 hover:underline flex items-center gap-2"
+              >
+                <i className="fa-regular fa-user"></i> About Me
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contact"
+                className="text-sky-600 hover:underline flex items-center gap-2"
+              >
+                <i className="fa-regular fa-envelope"></i> Contact
+              </a>
+            </li>
+          </ul>
         </div>
-
-        {/* Bottom Divider */}
-        <div className="border-t border-gray-300 mt-4"></div>
       </div>
     </section>
   );
