@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import AlertBox from "./AlertBox";
 
-const ItemIssueForm = () => {
+const ItemIssueForm = ({department}) => {
   const [itemsList, setItemsList] = useState([]);
   const [currentItem, setCurrentItem] = useState({ item: "", quantity: 1 });
   const [items, setItems] = useState(["Breadboard", "Capacitor", "Inductor", "Resistor", "Wire"]); // Initial dropdown items
@@ -34,7 +34,7 @@ const ItemIssueForm = () => {
     e.preventDefault();
     // Handle form submission 
 
-    axios.post(`http://localhost:3000/student/${id}/compForm`,itemsList)
+    axios.post(`http://localhost:3000/student/${id}/${department}`,itemsList)  // here i should remove the prop department and add the compForm to return to my previous code 
     .then((result) => {
       console.log(result);
       navigate(`/student/${id}`,{ state: { message: "component form submitted succesfully", type: "success" } });

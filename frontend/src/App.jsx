@@ -57,7 +57,19 @@ function App() {
     },
     {
       path:"/student/:id/compForm",
-      element:<><Navbar></Navbar><ItemIssueForm></ItemIssueForm><Footer></Footer></>
+      element:<><Navbar></Navbar><ItemIssueForm department="compForm"></ItemIssueForm><Footer></Footer></>
+    },
+    {
+      path:"/student/:id/electricalDept",
+      element:<><Navbar></Navbar><ItemIssueForm department='electricalDept'></ItemIssueForm><Footer></Footer></>
+    },
+    {
+      path:"/student/:id/eceDept",
+      element:<><Navbar></Navbar>Ece component issue formn<Footer></Footer></>
+    },
+    {
+      path:"/student/:id/mechDept",
+      element:<><Navbar></Navbar>mech component issue formn<Footer></Footer></>
     },
     {
       path:"/student/:id/stuAbt", 

@@ -166,6 +166,10 @@ const StuAbt = () => {
               <p className="text-lg font-medium">{block.issueDate}</p>
             </div>
             <div>
+              <p className="text-sm text-gray-500">Department</p>
+              <p className="text-lg font-medium">test</p>
+            </div>
+            <div>
               <p className="text-sm text-gray-500">Status</p>
               <p
                 className={`text-lg font-medium ${
@@ -225,21 +229,30 @@ const StuAbt = () => {
                   ))}
                 </tbody>
               </table>
+
               <div className="mt-4 flex space-x-4">
+                {/* Return Items Button */}
                 <button
-                  onClick={() => markAsReturned(block.issuedId)} // Call the function with the item's ID
+                  onClick={() => markAsReturned(block.issuedId)}
                   className={`px-4 py-2 rounded-md ${
                     block.status === "Returned"
                       ? "bg-gray-400 text-white cursor-not-allowed"
                       : "bg-green-600 text-white hover:bg-green-700"
                   }`}
-                  disabled={block.status === "Returned"}
+                  disabled={block.status === "Returned"} // Disable only if already returned
                 >
                   Return Items
                 </button>
+
+                {/* Reissue Items Button */}
                 <button
                   onClick={() => reissueItems(block.issuedId)}
-                  className={`px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700`}
+                  className={`px-4 py-2 rounded-md ${
+                    block.status !== "Returned"
+                      ? "bg-gray-400 text-white cursor-not-allowed"
+                      : "bg-blue-600 text-white hover:bg-blue-700"
+                  }`}
+                  disabled={block.status !== "Returned"} // Enable only if status is "Returned"
                 >
                   Reissue Items
                 </button>
