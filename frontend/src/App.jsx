@@ -56,10 +56,6 @@ function App() {
       element:<><Navbar></Navbar><ItemIssueDepartmentList></ItemIssueDepartmentList><Footer></Footer></>
     },
     {
-      path:"/student/:id/compForm",
-      element:<><Navbar></Navbar><ItemIssueForm department="compForm"></ItemIssueForm><Footer></Footer></>
-    },
-    {
       path:"/student/:id/electricalDept",
       element:<><Navbar></Navbar><ItemIssueForm department='electricalDept'></ItemIssueForm><Footer></Footer></>
     },
