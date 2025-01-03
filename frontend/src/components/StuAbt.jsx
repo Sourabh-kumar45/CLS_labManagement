@@ -23,6 +23,7 @@ const StuAbt = () => {
               status: user.returnStatus,
               issuedId:user._id,//`#${user._id.substring(0, 5)}`, // Create issuedId from the user's ID,
               uniqueId:user.uniqueId,
+              department:user.department,
               items: user.components.map((component) => ({
                 name: component.item,
                 quantity: component.quantity,
@@ -64,9 +65,9 @@ const StuAbt = () => {
     return daysRemaining > 0 ? daysRemaining : 0; // Ensure daysRemaining doesn't go negative
   };
 
-  const markAsReturned = async (issuedId) => {
+  const markAsReturned = async (issuedId,department) => {
     try {
-      const response = await fetch(`http://localhost:3000/student/${id}/compForm/${issuedId}`, {
+      const response = await fetch(`http://localhost:3000/student/${id}/${department}/${issuedId}`, {
         method: 'PUT', // HTTP method for updating
         headers: {
           'Content-Type': 'application/json',
@@ -99,11 +100,11 @@ const StuAbt = () => {
     }
   };
   
-  const reissueItems = async (issuedId) => {
+  const reissueItems = async (issuedId,department) => {
     try {
       // Update the status and issue date in the database for reissuance
       const response = await axios.put(
-        `http://localhost:3000/student/${id}/compForm/${issuedId}`, // Endpoint to reissue items
+        `http://localhost:3000/student/${id}/${department}/${issuedId}`, // Endpoint to reissue items
         {
           returnStatus: "Not Returned", // Reset return status
           issueDate: new Date().toISOString().split("T")[0], // Set the new issue date (current date)
@@ -167,7 +168,7 @@ const StuAbt = () => {
             </div>
             <div>
               <p className="text-sm text-gray-500">Department</p>
-              <p className="text-lg font-medium">test</p>
+              <p className="text-lg font-medium">{block.department}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Status</p>
@@ -233,7 +234,7 @@ const StuAbt = () => {
               <div className="mt-4 flex space-x-4">
                 {/* Return Items Button */}
                 <button
-                  onClick={() => markAsReturned(block.issuedId)}
+                  onClick={() => markAsReturned(block.issuedId,block.department)}
                   className={`px-4 py-2 rounded-md ${
                     block.status === "Returned"
                       ? "bg-gray-400 text-white cursor-not-allowed"
@@ -246,7 +247,7 @@ const StuAbt = () => {
 
                 {/* Reissue Items Button */}
                 <button
-                  onClick={() => reissueItems(block.issuedId)}
+                  onClick={() => reissueItems(block.issuedId,block.department)}
                   className={`px-4 py-2 rounded-md ${
                     block.status !== "Returned"
                       ? "bg-gray-400 text-white cursor-not-allowed"

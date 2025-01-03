@@ -41,6 +41,12 @@ const ECEDeptComp = new mongoose.Schema({
         type:String,
         required:true
     }
+    ,
+    department:{
+        type:String,
+        required:true,
+        default: "eceDept" 
+    }
 })
 
 module.exports = mongoose.model('ECEDeptComp',ECEDeptComp)

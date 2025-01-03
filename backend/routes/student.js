@@ -154,9 +154,10 @@ router.get('/:id/compForm',async (req,res)=>{
     const id = req.params.id;
     try{
         const dataset2 = await ElectricalDeptComp.find( { uniqueId: id}); 
-        const dataset1 = await Components.find({uniqueId:id});
+        const dataset1 = await MechDeptComp.find({uniqueId:id});
+        const dataset3 = await ECEDeptComp.find({uniqueId:id});
 
-        const user = dataset1.concat(dataset2);
+        const user = dataset3.concat(dataset1.concat(dataset2));
         console.log(user)
         if (!user) {
             return res.status(404).json({ error: "User not found" });
@@ -207,6 +208,7 @@ router.post('/:id/:department',async (req,res)=>{
           uniqueId:user.uniqueId,
           returnStatus:"Not Returned",
           email:user.email,
+          department:department
       }
 
       // to send teh email to user email.// here add validation for correct email.
@@ -226,7 +228,7 @@ router.post('/:id/:department',async (req,res)=>{
   } else if (department==='mechDept'){
     Model = MechDeptComp
   } else{
-    console.log('departmet does not exist')
+    console.log('department does not exist')
   }
 
   Model.create(dataSet)

@@ -65,11 +65,11 @@ function App() {
     },
     {
       path:"/student/:id/eceDept",
-      element:<><Navbar></Navbar>Ece component issue formn<Footer></Footer></>
+      element:<><Navbar></Navbar><ItemIssueForm department='eceDept'></ItemIssueForm><Footer></Footer></>
     },
     {
       path:"/student/:id/mechDept",
-      element:<><Navbar></Navbar>mech component issue formn<Footer></Footer></>
+      element:<><Navbar></Navbar><ItemIssueForm department='mechDept'></ItemIssueForm><Footer></Footer></>
     },
     {
       path:"/student/:id/stuAbt", 

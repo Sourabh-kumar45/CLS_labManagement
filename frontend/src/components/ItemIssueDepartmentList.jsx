@@ -7,16 +7,18 @@ const ItemIssueDepartmentList = () => {
     const {id} = useParams()
     // console.log(id)
   const departments = [
-    {
-      id: 1,
-      name: 'Electrical Department',
-      image: "/images/electricalLab.jpg", // Replace with your image URL
-      description:
-        'The Electrical Department focuses on power systems, control systems, and electronics. Students are trained in various domains like circuit design, renewable energy, and automation.',
-      hodName: 'Dr. John Doe',
-      labInchargeName: 'Mr. Mark Smith',
-      route: `/student/${id}/compForm`, // Replace with the actual route `/student/${id}/compForm`
-    },
+
+    //compForm is of no use now
+    // {
+    //   id: 1,
+    //   name: 'Electrical Department',
+    //   image: "/images/electricalLab.jpg", // Replace with your image URL
+    //   description:
+    //     'The Electrical Department focuses on power systems, control systems, and electronics. Students are trained in various domains like circuit design, renewable energy, and automation.',
+    //   hodName: 'Dr. John Doe',
+    //   labInchargeName: 'Mr. Mark Smith',
+    //   route: `/student/${id}/compForm`, // Replace with the actual route `/student/${id}/compForm` this one is depreciated
+    // },
     {
       id: 2,
       name: 'ECE Department',
