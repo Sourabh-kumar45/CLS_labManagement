@@ -9,6 +9,7 @@ const IssueRequest = () => {
       status: "Pending",
       issuedId: "REQ101",
       uniqueId: "STU001",
+      department:"chemistry",
       items: [
         { name: "Resistor", quantity: 10 },
         { name: "Capacitor", quantity: 5 },
@@ -22,6 +23,7 @@ const IssueRequest = () => {
       status: "Pending",
       issuedId: "REQ102",
       uniqueId: "STU002",
+      department:"chemistry",
       items: [
         { name: "Breadboard", quantity: 1 },
         { name: "LED", quantity: 10 },
@@ -77,6 +79,10 @@ const IssueRequest = () => {
             <div>
               <p className="text-sm text-gray-500">Issue Date</p>
               <p className="text-lg font-medium">{block.issueDate}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Department</p>
+              <p className="text-lg font-medium">{block.department}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Status</p>

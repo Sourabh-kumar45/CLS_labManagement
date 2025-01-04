@@ -23,6 +23,7 @@ import Check from './components/AboutStudent'
 import ItemIssueDepartmentList from './components/ItemIssueDepartmentList'
 import StudentList from './teacherComponents/StudentList'
 import IssueRequest from './teacherComponents/IssueRequest'
+import TeacherDashboard from './teacherComponents/TeacherDashboard'
 
 function App() {
 
@@ -110,6 +111,10 @@ function App() {
     {
       path:"/achievement",
       element:<><Navbar></Navbar><Achievement studentName={studentName} achievements={achievements}></Achievement><Footer></Footer></>
+    },
+    {
+      path:"/teacher",
+      element:<><Navbar></Navbar><TeacherDashboard></TeacherDashboard><StudentList></StudentList><IssueRequest></IssueRequest><Footer></Footer></>
     },
   ])
   
