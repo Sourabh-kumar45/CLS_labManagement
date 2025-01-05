@@ -12,9 +12,9 @@ const componentItemSchema = new mongoose.Schema({
     }
   });
 
-const componentSchema = new mongoose.Schema({
+const ECEDeptComp = new mongoose.Schema({
     components: {
-        type: [componentItemSchema], // Array of items based on the sub-schema
+        type: [componentItemSchema],
         required: true
     },
     name:{
@@ -40,12 +40,13 @@ const componentSchema = new mongoose.Schema({
     email:{
         type:String,
         required:true
-    },
+    }
+    ,
     department:{
         type:String,
         required:true,
-        default: "compForm" 
+        default: "eceDept" 
     }
 })
 
-module.exports = mongoose.model('Components',componentSchema)
+module.exports = mongoose.model('ECEDeptComp',ECEDeptComp)

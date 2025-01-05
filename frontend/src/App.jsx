@@ -1,22 +1,29 @@
-import './App.css';
-import DashBoard from './components/DashBoard';
-import Login from './components/Login';
-import Navbar from './components/Navbar';
-import StudentInfo from './components/StudentInfo';
-import Footer from './components/Footer';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Department from './components/Department';
-import Register from './components/Register';
-import ItemIssueForm from './components/ItemIssueForm';
-import Student from './components/Student';
-import StuAbt from './components/StuAbt';
-import StuPrj from './components/StuPrj';
-import StudentForm from './components/StudentForm';
-import Help from './components/Help';
-import Achievement from './components/Achievement';
-import ItemIssueDepartmentList from './components/ItemIssueDepartmentList';
-import StudentList from './teacherComponents/StudentList';
-import IssueRequest from './teacherComponents/IssueRequest';
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+import './App.css'
+import DashBoard from './components/DashBoard'
+import Login from './components/Login'
+import Navbar from './components/Navbar'
+import StudentInfo from './components/StudentInfo'
+import Footer from './components/Footer'
+import { createBrowserRouter,RouterProvider } from 'react-router-dom'
+import Department from './components/Department'
+import Register from './components/Register'
+import ItemIssueForm from './components/ItemIssueForm'
+import Student from './components/Student'
+import Test from './components/Test'
+import StuAbt from './components/StuAbt'
+import StuPrj from './components/StuPrj'
+import StudentForm from './components/StudentForm'
+import Home from './components/Home'
+import Help from './components/Help'
+import Achievement from './components/Achievement'
+import Check from './components/AboutStudent'
+import ItemIssueDepartmentList from './components/ItemIssueDepartmentList'
+import StudentList from './teacherComponents/StudentList'
+import IssueRequest from './teacherComponents/IssueRequest'
+import TeacherDashboard from './teacherComponents/TeacherDashboard'
 
 function App() {
   const studentName = "Sourabh";
@@ -88,16 +95,8 @@ function App() {
       ),
     },
     {
-      path: "/student/:id/compForm",
-      element: (
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
-            <ItemIssueForm />
-          </main>
-          <Footer className="flex-shrink-0" />
-        </div>
-      ),
+      path:"/student/:id/compForm",
+      element:<><Navbar></Navbar><ItemIssueForm></ItemIssueForm><Footer></Footer></>
     },
     {
       path: "/student/:id/stuAbt",
@@ -231,9 +230,14 @@ function App() {
         </div>
       ),
     },
-  ]);
+  ])
+  
+  return (
+    <>
+      <RouterProvider router={router}></RouterProvider>
 
-  return <RouterProvider router={router} />;
+    </>
+  )
 }
 
 export default App;

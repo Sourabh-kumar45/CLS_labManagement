@@ -1,9 +1,15 @@
 const express  = require('express')
 const router = express.Router()
 const Components = require('../model/components')
+const ElectricalDeptComp = require('../model/component/electricalDept')
+const MechDeptComp = require('../model/component/mechDept')
+const ECEDeptComp = require('../model/component/eceDept')
 const Register = require('../model/register')
 const Student = require('../model/student')
 const nodemailer = require("nodemailer")
+
+
+
 
 
 // setting up the nodemailer
@@ -29,9 +35,15 @@ const sendMail = async (transporter,mail)=>{
 
 
 
+
+
+// Main Student Route of the Backend.
 router.get('/',(req,res)=>{
     res.send("This is the Student route")
 })
+
+
+
 
 
 // Sending the register Data
@@ -59,7 +71,11 @@ router.get('/:id',async (req,res)=>{
 
 
 
-// Student Form path to enter Details.
+
+
+
+
+// Student Form path to enter Academics details in order to initilize the usage of website.
 
 router.get('/:id/form',async (req,res)=>{
     const id = req.params.id;
@@ -77,13 +93,12 @@ router.get('/:id/form',async (req,res)=>{
             branch: user.branch
         });
     } catch{
-        // if user is not found
         res.redirect('/')
-        // to login once more
     }
-    // res.send(`this is the form page for student id ${id}`)
 })
 
+
+// route to post the student academics details.
 router.post('/:id/form',(req,res)=>{
     console.log("Request Body:", req.body); // Log the request body
     Student.create(req.body)
@@ -97,12 +112,12 @@ router.post('/:id/form',(req,res)=>{
       });
 })
 
-// Endpoint for updating existing Student data in the Student Form
 
+// Endpoint for updating existing Student data in the Student Form
 router.put('/:id/form', (req, res) => {
-    const id = req.params.id; // Extract the student ID from the URL
+    const id = req.params.id; 
   
-    console.log("Request Body:", req.body); // Log the incoming data
+    console.log("Request Body:", req.body); 
   
     // Update the student data in the database
         Student.findOneAndUpdate(
@@ -114,11 +129,11 @@ router.put('/:id/form', (req, res) => {
         if (!updatedStudent) {
           return res.status(404).json({ message: 'Student not found' });
         }
-        console.log("Student Updated:", updatedStudent); // Log the updated student data
-        res.json(updatedStudent); // Respond with the updated student
+        console.log("Student Updated:", updatedStudent); 
+        res.json(updatedStudent); 
       })
       .catch(err => {
-        console.error("Error Updating Student:", err); // Log any errors
+        console.error("Error Updating Student:", err); 
         res.status(500).json({ error: 'Error updating student', details: err });
       });
   });
@@ -133,15 +148,17 @@ router.put('/:id/form', (req, res) => {
 
 
 
-
-
-// student path to issue component
+// Path related to issue component.
 
 router.get('/:id/compForm',async (req,res)=>{
     const id = req.params.id;
     try{
-        const user = await Components.find( { uniqueId: id}); 
+        const dataset2 = await ElectricalDeptComp.find( { uniqueId: id}); 
+        const dataset1 = await MechDeptComp.find({uniqueId:id});
+        const dataset3 = await ECEDeptComp.find({uniqueId:id});
 
+        const user = dataset3.concat(dataset1.concat(dataset2));
+        console.log(user)
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -154,110 +171,141 @@ router.get('/:id/compForm',async (req,res)=>{
         res.redirect('/')
         // to login once more
     }
-    // res.send(`this is the form page for student id ${id}`)
 })
 
 
 
+// post Route to enter the component into various depatments.
+router.post('/:id/:department',async (req,res)=>{
+  console.log("Request Body:", req.body); 
 
-router.post('/:id/compForm',async (req,res)=>{
-    console.log("Request Body:", req.body); // Log the request body
-
-    const id = req.params.id;
-    let sendingemail;
-
-    let dataSet = {
-        // the reqest body contain data in teh form of array of objects
-        components:req.body
-    }
-
-    // find the data in the student info dabase and add the necessary details form that
-    try{
-        const user = await Student.findOne( { uniqueId: id}); 
-
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
-        }
-
-        // Respond with user data
-        dataSet={
-            ...dataSet ,// to keep the previous data intact 
-            name:user.name,
-            clgid:user.clgid,
-            branch:user.branch,
-            uniqueId:user.uniqueId,
-            returnStatus:"Not Returned",
-            email:user.email,
-        }
-
-        // to send teh email to user email.// here add validation for correct email.
-        sendingemail=user.email;
-
-    } catch{
-        // if user is not found
-        res.redirect('/')
-        // to login once more error occured.
-    }
+  const id = req.params.id;
+  const department = req.params.department;
+  let sendingemail;
 
 
-    Components.create(dataSet)
-      .then((Components) => {
-        console.log("Student Saved:", Components); // Log the saved component
-        res.json(Components);
+  let dataSet = {
+      // the reqest body contain data in teh form of array of objects
+      components:req.body
+  }
 
-        // seding mail that the user has issued this this items.
-        if (sendingemail) {
-          const issueMail = {
-            from: {
-              name: "Component Lending System CLS",
-              adress: process.env.USER,
-            },
-            to: [sendingemail], // list of receivers yogeshkaswan2023@gmail.com
-            subject: `Components lended`,
-            text: ``,
-            html: `
-              <h2>Component Information</h2>
-              <p><strong>Dear user,</strong><br> This is a auto generated mail from the Component Lending system about the info of your issued items</p>
-              <table border="1" cellpadding="5" cellspacing="0">
-                <thead>
+
+  // find the data in the student info dabase and add the necessary details form that
+  try{ 
+      
+      const user = await Student.findOne( { uniqueId: id}); 
+
+      if (!user) {
+          return res.status(404).json({ error: "User not found" });
+      }
+
+      // Respond with user data
+      dataSet={
+          ...dataSet ,// to keep the previous data intact 
+          name:user.name,
+          clgid:user.clgid,
+          branch:user.branch,
+          uniqueId:user.uniqueId,
+          returnStatus:"Not Returned",
+          email:user.email,
+          department:department
+      }
+
+      // to send teh email to user email.// here add validation for correct email.
+      sendingemail=user.email;
+
+  } catch{
+      // if user is not found
+      res.redirect('/')
+      // to login once more error occured.
+  }
+
+  let Model;
+  if(department ==='electricalDept'){
+    Model=ElectricalDeptComp;
+  } else if (department==='eceDept'){
+    Model = ECEDeptComp 
+  } else if (department==='mechDept'){
+    Model = MechDeptComp
+  } else{
+    console.log('department does not exist')
+  }
+
+  Model.create(dataSet)
+    .then((Model) => {
+      console.log("Component Saved:", Model); // Log the saved component
+      res.json(Model);
+
+      // seding mail that the user has issued this this items.
+      if (sendingemail) {
+        const issueMail = {
+          from: {
+            name: "Component Lending System CLS",
+            adress: process.env.USER,
+          },
+          to: [sendingemail], // list of receivers yogeshkaswan2023@gmail.com
+          subject: `Components lended`,
+          text: ``,
+          html: `
+            <h2>Component Information</h2>
+            <p><strong>Dear user,</strong><br> This is a auto generated mail from the Component Lending system about the info of your issued items</p>
+            <table border="1" cellpadding="5" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${dataSet.components.map(components => `
                   <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
+                    <td>${components.item}</td>
+                    <td>${components.quantity}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  ${dataSet.components.map(component => `
-                    <tr>
-                      <td>${component.item}</td>
-                      <td>${component.quantity}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-              <p>Best Regards,</p>
-              <p>CLS IIT Bhilai</p>
-            `,
-          };
-          sendMail(transporter, issueMail);
-        }
-      })
-      .catch((err) => {
-        console.error("Error Saving Student:", err); // Log the error
-        res.status(500).json(err);
-      });
+                `).join('')}
+              </tbody>
+            </table>
+            <p>Best Regards,</p>
+            <p>CLS IIT Bhilai</p>
+          `,
+        };
+        sendMail(transporter, issueMail);
+      }
+    })
+    .catch((err) => {
+      console.error("Error Saving component:", err); // Log the error
+      res.status(500).json(err);
+      res.redirect('/:id')
+    });
 })
+
+
+
+
 
 
 
 // Route to handle reissue and update status 
-router.put('/:id/compForm/:issuedId', async (req, res) => {
-  const { id, issuedId } = req.params;
+
+router.put('/:id/:department/:issuedId', async (req, res) => {
+  const { id, issuedId ,department} = req.params;
   const { returnStatus, issueDate, daysRemaining } = req.body; // Get the data to update
   
   try {
     // Step 1: Find the component by issuedId
     console.log("Attempting to find component with issuedId:", issuedId);
-    const updatedComponent = await Components.findOneAndUpdate(
+      
+    let Model;
+    if(department ==='electricalDept'){
+      Model=ElectricalDeptComp;
+    } else if (department==='eceDept'){
+      Model = ECEDeptComp 
+    } else if (department==='mechDept'){
+      Model = MechDeptComp
+    } else{
+      console.log('departmet does not exist')
+    }
+    const updatedComponent = await Model.findOneAndUpdate(
       { "_id": issuedId },
       { 
         $set: {
@@ -337,6 +385,96 @@ router.put('/:id/compForm/:issuedId', async (req, res) => {
 
 
 
+
+
+
+// router.put('/:id/compForm/:issuedId', async (req, res) => {
+//   const { id, issuedId } = req.params;
+//   const { returnStatus, issueDate, daysRemaining } = req.body; // Get the data to update
+  
+//   try {
+//     // Step 1: Find the component by issuedId
+//     console.log("Attempting to find component with issuedId:", issuedId);
+//     const updatedComponent = await Components.findOneAndUpdate(
+//       { "_id": issuedId },
+//       { 
+//         $set: {
+//           "returnStatus": returnStatus,
+//           "issueDate": issueDate,
+//           "daysRemaining" : daysRemaining,
+//         }
+//       },
+//       { new: true, runValidators: true } // Ensure validation and return the updated record
+//     );
+
+//     const sendingemail=updatedComponent.email;
+    
+//     if (!updatedComponent) {
+//       console.log("No component found with issuedId:", issuedId);
+//       return res.status(404).json({ message: 'Component not found' });
+//     }
+
+//     console.log("Component successfully updated:", updatedComponent);
+
+//     // sending the email
+
+//     // setting the email return or issue:
+//     let output;
+//     if(updatedComponent.returnStatus === "Returned"){
+//       output="have been retured"
+//     }
+//     else{
+//       output="have been reissued"
+//     }
+
+//     if (sendingemail) {
+//       const issueMail = {
+//         from: {
+//           name: "Component Lending System CLS",
+//           adress: process.env.USER,
+//         },
+//         to: [sendingemail], // list of receivers yogeshkaswan2023@gmail.com
+//         subject: `Components lended`,
+//         text: ``,
+//         html: `
+//           <h2>Component Information</h2>
+//           <p><strong>Dear user,</strong><br> This is a auto generated mail from the Component Lending system about the about the following items ${output}.</p>
+//           <table border="1" cellpadding="5" cellspacing="0">
+//             <thead>
+//               <tr>
+//                 <th>Item</th>
+//                 <th>Quantity</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               ${updatedComponent.components.map(component => `
+//                 <tr>
+//                   <td>${component.item}</td>
+//                   <td>${component.quantity}</td>
+//                 </tr>
+//               `).join('')}
+//             </tbody>
+//           </table>
+//           <p>Best Regards,</p>
+//           <p>CLS IIT Bhilai</p>
+//         `,
+//       };
+//       sendMail(transporter, issueMail);
+//     }
+
+
+//     // Step 2: Return the updated component as response
+//     res.json(updatedComponent);
+//   } catch (error) {
+//     // Log detailed error info
+    
+//     // Respond with the error details
+//     res.status(500).json({ error: 'Error reissuing component', details: error.message });
+//   }
+// });
+
+
+
 // forLogout  this would be later implemented.
 router.post('/:id/logout', (req, res) => {
   if (req.session) {
@@ -356,3 +494,106 @@ router.post('/:id/logout', (req, res) => {
 
 
 module.exports = router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// router.post('/:id/compForm',async (req,res)=>{
+//     console.log("Request Body:", req.body); // Log the request body
+
+//     const id = req.params.id;
+//     let sendingemail;
+
+//     let dataSet = {
+//         // the reqest body contain data in teh form of array of objects
+//         components:req.body
+//     }
+
+//     // find the data in the student info dabase and add the necessary details form that
+//     try{
+//         const user = await Student.findOne( { uniqueId: id}); 
+
+//         if (!user) {
+//             return res.status(404).json({ error: "User not found" });
+//         }
+
+//         // Respond with user data
+//         dataSet={
+//             ...dataSet ,// to keep the previous data intact 
+//             name:user.name,
+//             clgid:user.clgid,
+//             branch:user.branch,
+//             uniqueId:user.uniqueId,
+//             returnStatus:"Not Returned",
+//             email:user.email,
+//         }
+
+//         // to send teh email to user email.// here add validation for correct email.
+//         sendingemail=user.email;
+
+//     } catch{
+//         // if user is not found
+//         res.redirect('/')
+//         // to login once more error occured.
+//     }
+
+
+//     Components.create(dataSet)
+//       .then((Components) => {
+//         console.log("Student Saved:", Components); // Log the saved component
+//         res.json(Components);
+
+//         // seding mail that the user has issued this this items.
+//         if (sendingemail) {
+//           const issueMail = {
+//             from: {
+//               name: "Component Lending System CLS",
+//               adress: process.env.USER,
+//             },
+//             to: [sendingemail], // list of receivers yogeshkaswan2023@gmail.com
+//             subject: `Components lended`,
+//             text: ``,
+//             html: `
+//               <h2>Component Information</h2>
+//               <p><strong>Dear user,</strong><br> This is a auto generated mail from the Component Lending system about the info of your issued items</p>
+//               <table border="1" cellpadding="5" cellspacing="0">
+//                 <thead>
+//                   <tr>
+//                     <th>Item</th>
+//                     <th>Quantity</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   ${dataSet.components.map(component => `
+//                     <tr>
+//                       <td>${component.item}</td>
+//                       <td>${component.quantity}</td>
+//                     </tr>
+//                   `).join('')}
+//                 </tbody>
+//               </table>
+//               <p>Best Regards,</p>
+//               <p>CLS IIT Bhilai</p>
+//             `,
+//           };
+//           sendMail(transporter, issueMail);
+//         }
+//       })
+//       .catch((err) => {
+//         console.error("Error Saving Student:", err); // Log the error
+//         res.status(500).json(err);
+//       });
+// })

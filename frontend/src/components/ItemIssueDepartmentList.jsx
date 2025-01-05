@@ -7,16 +7,18 @@ const ItemIssueDepartmentList = () => {
     const {id} = useParams()
     // console.log(id)
   const departments = [
-    {
-      id: 1,
-      name: 'Electrical Department',
-      image: "/images/electricalLab.jpg", // Replace with your image URL
-      description:
-        'The Electrical Department focuses on power systems, control systems, and electronics. Students are trained in various domains like circuit design, renewable energy, and automation.',
-      hodName: 'Dr. John Doe',
-      labInchargeName: 'Mr. Mark Smith',
-      route: `/student/${id}/compForm`, // Replace with the actual route
-    },
+
+    //compForm is of no use now
+    // {
+    //   id: 1,
+    //   name: 'Electrical Department',
+    //   image: "/images/electricalLab.jpg", // Replace with your image URL
+    //   description:
+    //     'The Electrical Department focuses on power systems, control systems, and electronics. Students are trained in various domains like circuit design, renewable energy, and automation.',
+    //   hodName: 'Dr. John Doe',
+    //   labInchargeName: 'Mr. Mark Smith',
+    //   route: `/student/${id}/compForm`, // Replace with the actual route `/student/${id}/compForm` this one is depreciated
+    // },
     {
       id: 2,
       name: 'ECE Department',
@@ -25,7 +27,7 @@ const ItemIssueDepartmentList = () => {
         'The Electronics and Communication Engineering Department specializes in communication systems, microprocessors, and embedded systems, equipping students with industry-relevant skills.',
       hodName: 'Dr. Jane Doe',
       labInchargeName: 'Ms. Sarah Johnson',
-      route: '/departments/ece', // Replace with the actual route
+      route: `/student/${id}/eceDept`, // Replace with the actual route
     },
     {
       id: 3,
@@ -35,7 +37,17 @@ const ItemIssueDepartmentList = () => {
         'The Mechanical Department offers expertise in thermodynamics, machine design, and manufacturing processes. It’s ideal for those interested in innovation in machinery and robotics.',
       hodName: 'Dr. Alice Brown',
       labInchargeName: 'Mr. Robert Lee',
-      route: '/departments/mechanical', // Replace with the actual route
+      route: `/student/${id}/mechDept`, // Replace with the actual route
+    },
+    {
+      id: 4,
+      name: 'Electrical Department2',
+      image: "/images/electricalLab.jpg", // Replace with your image URL
+      description:
+        'The Electrical Department focuses on power systems, control systems, and electronics. Students are trained in various domains like circuit design, renewable energy, and automation.',
+      hodName: 'Dr. John Doe',
+      labInchargeName: 'Mr. Mark Smith',
+      route: `/student/${id}/electricalDept`, // Replace with the actual route `/student/${id}/compForm`
     },
   ];
 
