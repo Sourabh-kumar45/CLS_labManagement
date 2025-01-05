@@ -98,11 +98,10 @@ function App() {
     },
     {
       path:"/test",
-      element:<><Navbar></Navbar><StudentList></StudentList></>
     },
     {
       path:"/check",
-      element:<><Navbar></Navbar><IssueRequest/></>
+      element:<></>
     },
     {
       path:"/help",
