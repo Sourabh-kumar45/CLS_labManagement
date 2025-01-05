@@ -29,8 +29,8 @@ const StudentInfo = () => {
           <h3 className="text-xl font-semibold text-gray-700 mb-4">Personal Information</h3>
           <ul className="text-gray-600 space-y-2">
             <li><strong>Program:</strong> BTech</li>
-            <li><strong>Department:</strong>Electrical Engg.</li>
-            <li><strong>Branch:</strong>Electrical Engg.</li>
+            <li><strong>Department:</strong> Electrical Engg.</li>
+            <li><strong>Branch:</strong> Electrical Engg.</li>
           </ul>
         </div>
 
