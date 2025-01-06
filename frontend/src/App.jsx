@@ -183,28 +183,11 @@ function App() {
       ),
     },
     {
-      path: "/test",
-      element: (
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
-            <StudentList />
-          </main>
-          <Footer className="flex-shrink-0" />
-        </div>
-      ),
+      path:"/test",
     },
     {
-      path: "/check",
-      element: (
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
-            <IssueRequest />
-          </main>
-          <Footer className="flex-shrink-0" />
-        </div>
-      ),
+      path:"/check",
+      element:<></>
     },
     {
       path: "/help",

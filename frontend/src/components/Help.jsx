@@ -24,6 +24,7 @@ const Help = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 font-sans">
+      <br /><br /><br /><br />
       <h1 className="text-4xl font-bold text-center mb-6">Help Center</h1>
       <p className="text-center text-gray-600 mb-10">Find answers to common questions or reach out to us for assistance.</p>
 

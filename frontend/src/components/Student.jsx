@@ -70,66 +70,80 @@ const Student = () => {
   // Render user data
   return (
     <div>
-      {/* card containing data */}
-      <section className="flex flex-col sm:flex-row items-center justify-center sm:items-start gap-8 sm:gap-10 bg-zinc-100">
-        {/* Info Container */}
-        <div className="w-full sm:max-w-[60vw] md:max-w-[50vw] lg:max-w-[40vw] border border-gray-300 rounded-lg p-6 bg-gray-50 shadow-inner">
-          {/* Student Info */}
-          <div className="mb-4 flex gap-4">
-            {/* Image Container */}
-            <div className="border border-gray-300 rounded-lg h-20 w-20 overflow-hidden bg-gray-100">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhf1Nrw3E3Rci-8FmEz5KumCsaCDiRn4ievQ&s"
-                alt="Student"
-                className="object-cover w-full h-full"
-              />
-            </div>
-            <div>
-              <p className="font-semibold text-2xl text-sky-600">
-                {userData.name}
-              </p>
-              <p className="font-semibold text-lg text-gray-500">
-                ID: {userData.clgid}
-              </p>
-            </div>
-          </div>
+      <section className="pt-16 bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen flex flex-col items-center">
+      {/* Header Section */}
+      <div className="w-full bg-gradient-to-r from-blue-500 to-sky-400 text-white py-12 text-center">
+        <h1 className="text-3xl font-bold">Student Profile</h1>
+        <p className="text-lg mt-2">Welcome to the detailed profile view</p>
+      </div>
 
-          <a
+      {/* Content Section */}
+      <div className="w-full max-w-7xl px-6 sm:px-12 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Profile Section */}
+        <div className="flex flex-col items-center">
+          <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-sky-500">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhf1Nrw3E3Rci-8FmEz5KumCsaCDiRn4ievQ&s"
+              alt="Student"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <h2 className="text-2xl font-semibold text-gray-700 mt-4">{userData.name}</h2>
+          <p className="text-gray-500 text-lg">ID:{userData.clgid}</p>
+        </div>
+
+        
+
+        {/* Info Section */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+          <h3 className="text-2xl underline font-semibold text-gray-700 mb-4">Personal Information</h3>
+          <br />
+          <ul className="text-gray-600 text-lg space-y-2">
+            <li><strong>Program:</strong> {userData.program}</li>
+            <li><strong>Department:</strong> isko rakhna hai ki nahi</li>
+            <li><strong>Branch:</strong> {userData.branch}</li>
+          </ul>
+        </div>
+
+        {/* Links Section */}
+        <div className="col-span-1">
+          <h3 className="text-2xl font-semibold text-gray-700 mb-4">Quick Links</h3>
+          <br />
+          <ul className="space-y-3">
+            <li>
+              <a
+                href={`/student/${id}/stuPrj`}
+                className="text-sky-600 hover:underline flex items-center gap-2"
+              >
+                <i className="fa-regular fa-eye"></i> View Projects
+              </a>
+            </li>
+            <li>
+              <a
+                href={`/student/${id}/stuAbt`}
+                className="text-sky-600 hover:underline flex items-center gap-2"
+              >
+                <i className="fa-regular fa-user"></i> About Me
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contact"
+                className="text-sky-600 hover:underline flex items-center gap-2"
+              >
+                <i className="fa-regular fa-envelope"></i> Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+        <a
             href={`/student/${id}/form`}
-            className="inline-block text-white bg-blue-600 hover:bg-blue-700 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
+            className="inline-block w-24 text-white bg-blue-600 hover:bg-blue-700 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
           >
             Edit Details
           </a>
-
-          {/* Divider */}
-          <div className="border-t border-gray-300 my-4"></div>
-
-          <div className="flex flex-col gap-2 font-medium text-gray-600 pb-3">
-            <span>Program : {userData.program}</span>
-            <span>Department : isko rakhe ki nahi ye bata dena</span>
-            <span>Branch : {userData.branch}</span>
-          </div>
-
-          {/* Projects */}
-          <div className="flex items-center gap-2 mb-2 text-gray-600">
-            <i className="w-4 fa-regular fa-eye text-sky-600"></i>
-            <span className="hover:text-sky-600 cursor-pointer transition-colors">
-              <a href={`/student/${id}/stuPrj`}>Projects</a>
-            </span>
-          </div>
-
-          {/* About */}
-          <div className="flex items-center gap-2 mb-2 text-gray-600">
-            <i className="w-4 fa-regular fa-user text-sky-600"></i>
-            <span className="hover:text-sky-600 cursor-pointer transition-colors">
-              <a href={`/student/${id}/stuAbt`}>About</a>
-            </span>
-          </div>
-
-          {/* Bottom Divider */}
-          <div className="border-t border-gray-300 mt-4"></div>
-        </div>
-      </section>
+      </div>
+    </section>
 
       {/* alert box */}
       {errorMessage && (
@@ -140,62 +154,3 @@ const Student = () => {
 }
 
 export default Student
-
-
-
-
-// useEffect(() => {
-    //     // fetch the data from backend
-    //     axios
-    //     .get(`http://localhost:3000/student/${id}/form`) // Update the URL to match your backend route
-    //     .then((response) => {
-        //         if (response.status === 200 && response.data) {
-            //             // If the response is successful and data exists
-            //             setUserData(response.data); // Set the user data
-            //             setLoading(false); // Stop loading
-            //         } else {
-                //             // If no data is returned for the user
-                //             setError("User data not found");
-                //             setLoading(false); // Stop loading
-                //         }
-                //     })
-                //     .catch((err) => {
-                    //         // Check if it's a 404 error (user not found)
-                    //         if (err.response && err.response.status === 404) {
-                        //             setError("User not found");
-                        //         } else if (err.response) {
-                            //             // Handle other HTTP errors
-                            //             setError("Error fetching user data: " + err.response.statusText);
-                            //         } else {
-                                //             // Handle network or other errors
-                                //             setError("Network error or server is down");
-                                //         }
-                                //         setLoading(false); // Stop loading
-                                //     });
-                                
-                                
-                                // }, [id]);
-                                
-                                
-                                // // setting the errror message
-                                
-                                
-                                //   useEffect(() => {
-                                    //     if (location.state?.message) {
-                                        //       setErrorMessage({
-                                            //         message: location.state.message,
-//         type: location.state.type,
-//       });
-//     //   setErrorTimestamp(Date.now());
-//     }
-//   },[id]);
-
-
-    // // Render error state   
-    // if (error === "User not found") return(
-        //     <>
-        //     <br /><br /><br /><br /><br /><br /><br />
-        //     <StudentDashboard></StudentDashboard>
-        //     </>
-        
-        // );

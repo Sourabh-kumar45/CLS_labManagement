@@ -69,7 +69,7 @@ const Dashboard = () => {
           <div className="flex flex-col bg-gray-100">
             <main className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border-l-4  border-blue-900 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
                   <h2 className="text-xl font-bold text-gray-800 mb-2">
                     Technologies
                   </h2>
@@ -87,7 +87,7 @@ const Dashboard = () => {
                   </ul>
                 </div>
 
-                <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border-l-4  border-blue-900 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
                   <h2 className="text-xl font-bold text-gray-800 mb-2">
                     Manage Your Lab Experience
                   </h2>
@@ -103,7 +103,7 @@ const Dashboard = () => {
                   />
                 </div>
 
-                <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border-l-4  border-blue-900  transition-transform duration-300 hover:scale-105 hover:shadow-xl">
                   <h2 className="text-xl font-bold text-gray-800 mb-2">
                     Personalized
                   </h2>
