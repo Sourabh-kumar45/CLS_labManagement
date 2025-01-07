@@ -1,66 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const IssueRequest = () => {
-  // Dummy issue request data
-  const dummyRequests = [
-    {
-      id: 1,
-      issueDate: "2024-01-01",
-      status: "Pending",
-      issuedId: "REQ101",
-      uniqueId: "STU001",
-      department:"chemistry",
-      items: [
-        { name: "Resistor", quantity: 10 },
-        { name: "Capacitor", quantity: 5 },
-      ],
-      remark: "Handle with care",
-      isExpanded: false,
-    },
-    {
-      id: 2,
-      issueDate: "2024-01-05",
-      status: "Pending",
-      issuedId: "REQ102",
-      uniqueId: "STU002",
-      department:"chemistry",
-      items: [
-        { name: "Breadboard", quantity: 1 },
-        { name: "LED", quantity: 10 },
-      ],
-      remark: "Use gently",
-      isExpanded: false,
-    },
-  ];
+  const [accordionData, setAccordionData] = useState([]);
 
-  const [accordionData, setAccordionData] = useState(dummyRequests);
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+
+  const fetchRequests = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/requests');
+      const data = await response.json();
+      setAccordionData(data);
+    } catch (error) {
+      console.error('Error fetching requests:', error);
+    }
+  };
 
   const toggleAccordion = (id) => {
     setAccordionData((prevData) =>
       prevData.map((block) =>
-        block.id === id
-          ? { ...block, isExpanded: !block.isExpanded }
-          : block
+        block.id === id ? { ...block, isExpanded: !block.isExpanded } : block
       )
     );
   };
 
-  const handleApprove = (id) => {
-    setAccordionData((prevData) =>
-      prevData.map((block) =>
-        block.id === id ? { ...block, status: "Approved" } : block
-      )
-    );
-    alert("Request Approved!");
+  const handleApprove = async (id) => {
+    // Update status in the backend
+    await updateRequestStatus(id, "Approved");
   };
 
-  const handleReject = (id) => {
-    setAccordionData((prevData) =>
-      prevData.map((block) =>
-        block.id === id ? { ...block, status: "Rejected" } : block
-      )
-    );
-    alert("Request Rejected!");
+  const handleReject = async (id) => {
+    // Update status in the backend
+    await updateRequestStatus(id, "Rejected");
+  };
+
+  const updateRequestStatus = async (id, status) => {
+    try {
+      await fetch(`http://localhost:5000/api/requests/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      setAccordionData((prevData) =>
+        prevData.map((block) =>
+          block.id === id ? { ...block, status } : block
+        )
+      );
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
   };
 
   return (
@@ -70,7 +59,6 @@ const IssueRequest = () => {
           key={block.id}
           className="bg-white shadow rounded-md p-4 border border-gray-200"
         >
-          {/* Header */}
           <div className="flex justify-between items-center">
             <div>
               <p className="text-sm text-gray-500">Issue ID</p>
@@ -112,7 +100,6 @@ const IssueRequest = () => {
             </div>
           </div>
 
-          {/* Expandable Section */}
           {block.isExpanded && (
             <div className="mt-4 border-t border-gray-300 pt-4">
               <p className="text-sm text-gray-500">Issued Items:</p>

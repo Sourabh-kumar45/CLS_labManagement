@@ -213,6 +213,18 @@ function App() {
         </div>
       ),
     },
+    {
+      path: "/teacher",
+      element: (
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="flex-grow">
+            <TeacherDashboard />
+          </main>
+          <Footer className="flex-shrink-0" />
+        </div>
+      ),
+    },
   ])
   
   return (
