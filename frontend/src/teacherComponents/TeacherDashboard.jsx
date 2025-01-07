@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const TeacherDashboard = () => {
   const [activeCard, setActiveCard] = useState(null);
@@ -10,29 +10,39 @@ const TeacherDashboard = () => {
   const cardData = [
     {
       title: "New Incoming Requests",
-      description: "View and manage new requests for document issuance. Ensure all requests are handled promptly and efficiently to maintain workflow.",
+      description: "View and manage new requests for document issuance.",
       buttonText: "View Requests",
-      onClick: () => alert("Navigating to New Requests")
+      onClick: () => fetchData('requests')
     },
     {
       title: "All Students",
-      description: "Browse through the list of all students. Quickly access detailed profiles and academic information to streamline management.",
+      description: "Browse through the list of all students.",
       buttonText: "View Students",
-      onClick: () => alert("Navigating to Student List")
+      onClick: () => fetchData('students')
     },
     {
       title: "Export Documents",
-      description: "Download an Excel sheet of document data. Use this feature for reporting, analysis, and record-keeping purposes.",
+      description: "Download an Excel sheet of document data.",
       buttonText: "Export to Excel",
-      onClick: () => alert("Downloading Excel")
+      onClick: () => fetchData('export')
     },
     {
       title: "Manage Components",
-      description: "Add or remove components and adjust quantities. Keep track of resources and ensure proper allocation.",
+      description: "Add or remove components and adjust quantities.",
       buttonText: "Manage Components",
-      onClick: () => alert("Managing Components")
+      onClick: () => fetchData('components/manage')
     }
   ];
+
+  const fetchData = async (endpoint) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/${endpoint}`);
+      const data = await response.json();
+      console.log(data); // Process and display data as needed
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">

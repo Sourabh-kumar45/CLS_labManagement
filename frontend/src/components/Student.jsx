@@ -62,13 +62,6 @@ const Student = () => {
   if (!userData) {
     return (
       <>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
         <StudentDashboard />
       </>
     );

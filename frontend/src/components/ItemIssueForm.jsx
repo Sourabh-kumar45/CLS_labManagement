@@ -52,93 +52,101 @@ const ItemIssueForm = ({department}) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full flex flex-col justify-between">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-700">Issue Items Form</h2>
-            <h3 className="text-lg font-bold text-gray-700">Added Items</h3>
-          </div>
-          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-6">
-            <div className="w-full md:w-1/2" style={{ maxHeight: "400px", overflowY: "auto" }}>
-              {/* Item Dropdown */}
-              <div className="mb-4">
-                <label htmlFor="item" className="block text-gray-700 font-medium mb-2">
-                  Select Item
-                </label>
-                <select
-                  id="item"
-                  name="item"
-                  value={currentItem.item}
-                  onChange={(e) => handleChange("item", e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                >
-                  <option value="">Select an item</option>
-                  {items.map((itemName, idx) => (
-                    <option key={idx} value={itemName}>
-                      {itemName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Quantity Input */}
-              <div className="mb-4">
-                <label htmlFor="quantity" className="block text-gray-700 font-medium mb-2">
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  value={currentItem.quantity}
-                  onChange={(e) => handleChange("quantity", parseInt(e.target.value) || 1)}
-                  min="1"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  required
-                />
-              </div>
-
-              {/* Add Item Button */}
-              <div className="mb-4">
-                <button
-                  type="button"
-                  onClick={addItem}
-                  className="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none"
-                >
-                  Add Item
-                </button>
-              </div>
-
-              {/* Submit Button */}
-              <div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
-                >
-                  Submit
-                </button>
-              </div>
+        {/* Form Section */}
+        <div className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2">
+          <h2 className="text-2xl font-bold text-gray-700 mb-6">
+            Issue Items Form
+          </h2>
+          <form onSubmit={handleSubmit}>
+            {/* Item Dropdown */}
+            <div className="mb-4">
+              <label
+                htmlFor="item"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Select Item
+              </label>
+              <select
+                id="item"
+                name="item"
+                value={currentItem.item}
+                onChange={(e) => handleChange("item", e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              >
+                <option value="">Select an item</option>
+                {items.map((itemName, idx) => (
+                  <option key={idx} value={itemName}>
+                    {itemName}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            {/* Added Items Section */}
-            <div className="w-full md:w-1/2" style={{ maxHeight: "400px", overflowY: "auto" }}>
-              <ul className="list-disc pl-5">
-                {itemsList.map((item, index) => (
-                  <li key={index} className="flex justify-between items-center mb-2">
-                    <span>
-                      {item.item} - Quantity: {item.quantity}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removeItem(index)}
-                      className="text-red-500 font-medium hover:underline"
-                    >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
+            {/* Quantity Input */}
+            <div className="mb-4">
+              <label
+                htmlFor="quantity"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Quantity
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={currentItem.quantity}
+                onChange={(e) => handleChange("quantity", e.target.value)}
+                min="1"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
+
+            {/* Add Item Button */}
+            <div className="mb-4">
+              <button
+                type="button"
+                onClick={addItem}
+                className="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none"
+              >
+                Add Item
+              </button>
+            </div>
+
+            {/* Submit Button */}
+            <div>
+              <button
+                type="submit"
+                className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
+              >
+                Submit
+              </button>
             </div>
           </form>
+        </div>
+
+        {/* Added Items Section */}
+        <div className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2">
+          <h2 className="text-2xl font-bold text-gray-700 mb-6">
+            Added Items
+          </h2>
+          <ul className="list-disc pl-5" style={{ maxHeight: "400px", overflowY: "auto" }}>
+            {itemsList.map((item, index) => (
+              <li key={index} className="flex justify-between items-center mb-2">
+                <span>
+                  {item.item} - Quantity: {item.quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeItem(index)}
+                  className="text-red-500 font-medium hover:underline"
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
        {/* alert box */}
