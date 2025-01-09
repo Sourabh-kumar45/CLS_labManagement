@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const TeacherDashboard = () => {
   const [activeCard, setActiveCard] = useState(null);
+  const { teacherid }  = useParams();
+  const navigate = useNavigate()
 
   const handleCardClick = (cardIndex) => {
     setActiveCard(cardIndex);
@@ -12,12 +16,14 @@ const TeacherDashboard = () => {
       title: "New Incoming Requests",
       description: "View and manage new requests for document issuance. Ensure all requests are handled promptly and efficiently to maintain workflow.",
       buttonText: "View Requests",
+      route:`/teacher/${teacherid}/issueRqst`,
       onClick: () => alert("Navigating to New Requests")
     },
     {
       title: "All Students",
       description: "Browse through the list of all students. Quickly access detailed profiles and academic information to streamline management.",
       buttonText: "View Students",
+      route:`/teacher/${teacherid}/studentList`,
       onClick: () => alert("Navigating to Student List")
     },
     {
@@ -29,7 +35,8 @@ const TeacherDashboard = () => {
     {
       title: "Manage Components",
       description: "Add or remove components and adjust quantities. Keep track of resources and ensure proper allocation.",
-      buttonText: "Manage Components",
+      buttonText: 'Manage Component',
+      route:`/teacher/${teacherid}/addComp`,
       onClick: () => alert("Managing Components")
     }
   ];
@@ -46,7 +53,8 @@ const TeacherDashboard = () => {
             }`}
             onClick={() => {
               handleCardClick(index);
-              card.onClick();
+              navigate(card.route)
+              // card.onClick();
             }}
           >
             <h2 className="text-2xl font-semibold text-gray-700 mb-2">{card.title}</h2>

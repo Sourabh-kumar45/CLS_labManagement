@@ -24,6 +24,8 @@ import ItemIssueDepartmentList from './components/ItemIssueDepartmentList'
 import StudentList from './teacherComponents/StudentList'
 import IssueRequest from './teacherComponents/IssueRequest'
 import TeacherDashboard from './teacherComponents/TeacherDashboard'
+import AddComponents from './teacherComponents/AddComponents'
+import TeacherNavbar from './teacherComponents/TeacherNavbar'
 
 function App() {
 
@@ -96,12 +98,28 @@ function App() {
       path:"/register",
       element:<><Navbar></Navbar><Register></Register><Footer></Footer></>
     },
+    ,{
+      path:"/teacher/:teacherid",
+      element:<><TeacherNavbar></TeacherNavbar><br /><br /><br /><br /><TeacherDashboard></TeacherDashboard> <Footer></Footer></>
+    },
+    {
+      path:"/teacher/:teacherid/issueRqst",
+      element:<><TeacherNavbar></TeacherNavbar><br /><br /><br /><br /><IssueRequest></IssueRequest> <Footer></Footer></>
+    },
+    {
+      path:"/teacher/:teacherid/studentList",
+      element:<><TeacherNavbar></TeacherNavbar><br /><br /><br /><br /><StudentList></StudentList> <Footer></Footer></>
+    },
+    {
+      path:"/teacher/:teacherid/addComp",
+      element:<><TeacherNavbar></TeacherNavbar><br /><br /><br /><br /><br /><br /><AddComponents></AddComponents><br /><br /><br /><br /> <Footer></Footer></>
+    },
     {
       path:"/test",
     },
     {
       path:"/check",
-      element:<></>
+      element:<><AddComponents></AddComponents></>
     },
     {
       path:"/help",
