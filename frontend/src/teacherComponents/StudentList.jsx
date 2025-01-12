@@ -1,22 +1,37 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const StudentList = () => {
-  // Dummy student data
-  const dummyStudents = [
-    { id: "S101", name: "Alice Johnson", email: "alice@example.com", phone: "123-456-7890" },
-    { id: "S102", name: "Bob Smith", email: "bob@example.com", phone: "234-567-8901" },
-    { id: "S103", name: "Charlie Brown", email: "charlie@example.com", phone: "345-678-9012" },
-    { id: "S104", name: "Diana Prince", email: "diana@example.com", phone: "456-789-0123" },
-  ];
+  const { teacherid } = useParams();
 
-  const [students, setStudents] = useState(dummyStudents);
+  const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Fetching the data from the backend
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/teacher/${teacherid}`);
+        if (response.status === 200 && response.data) {
+          // console.log("Fetched Students:", response.data);
+          setStudents(response.data); // Update the state
+        } else {
+          console.error("Student data not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchStudents();
+  }, [teacherid]);
 
   // Filter students based on search term
   const filteredStudents = students.filter(
     (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.id.toLowerCase().includes(searchTerm.toLowerCase())
+      student.clgid.toString().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -49,34 +64,23 @@ const StudentList = () => {
                 Email
               </th>
               <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
-                Phone
+                Program
               </th>
             </tr>
           </thead>
           <tbody>
             {filteredStudents.length > 0 ? (
               filteredStudents.map((student) => (
-                <tr key={student.id} className="border-t">
-                  <td className="px-4 py-2 text-sm text-gray-700">
-                    {student.id}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-700">
-                    {student.name}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-700">
-                    {student.email}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-700">
-                    {student.phone}
-                  </td>
+                <tr key={student.clgid} className="border-t">
+                  <td className="px-4 py-2 text-sm text-gray-700">{student.clgid}</td>
+                  <td className="px-4 py-2 text-sm text-gray-700">{student.name}</td>
+                  <td className="px-4 py-2 text-sm text-gray-700">{student.email}</td>
+                  <td className="px-4 py-2 text-sm text-gray-700">{student.program}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="4"
-                  className="px-4 py-6 text-center text-gray-500"
-                >
+                <td colSpan="4" className="px-4 py-6 text-center text-gray-500">
                   No students found.
                 </td>
               </tr>

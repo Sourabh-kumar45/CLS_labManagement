@@ -14,6 +14,7 @@ App.use(express.json()) // this would transport the data from front end to backe
 const studentRoute = require('./routes/student')
 const loginRoute = require('./routes/login')
 const registerRoute = require('./routes/register')
+const teacherRoute = require('./routes/teacher')
 
 
 // routes
@@ -38,6 +39,7 @@ db.once('open',error=>console.log('connected to mongoose'))
 App.use('/student',studentRoute)
 App.use('/login',loginRoute)
 App.use('/register',registerRoute)
+App.use('/teacher',teacherRoute)
 
 // app listening 
 App.listen(port,()=>{

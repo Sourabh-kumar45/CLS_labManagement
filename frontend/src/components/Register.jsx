@@ -12,7 +12,8 @@ const Register = () => {
   const [confirmPwd,setConfirmPwd] = useState();
   const [userType, setUserType] = useState('student');
   const navigate = useNavigate()
-
+  const branches = ["Computer Science", "DSAI", "Electrical", "Mechanical", "ECE", "MSME", "Mechatronics"];
+  
   //we have to modify this later to make dynamic. 
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorTimestamp, setErrorTimestamp] = useState(null); // using timestamps for multiple rerendering.
@@ -112,22 +113,34 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          {userType==='teacher' && (<div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="signup-email"
-            >
-              Branch
-            </label>
-            <input
-              type="branch"
-              id="signup-branch"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              onChange={(e) => setBranch(e.target.value)}
-            />
-          </div>)}
-          
+          {userType === "teacher" && (
+            <div className="mb-4">
+              <label
+                htmlFor="branch"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Branch
+              </label>
+              <select
+                id="branch"
+                name="branch"
+                value={branch}
+                onChange={(e) => setBranch(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                required
+              >
+                <option value="" disabled>
+                  Select your branch
+                </option>
+                {branches.map((branch, idx) => (
+                  <option key={idx} value={branch}>
+                    {branch}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
